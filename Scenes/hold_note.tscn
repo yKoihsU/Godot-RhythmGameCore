@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://r12p73mxl8tp"]
+
+[ext_resource type="Script" uid="uid://e37n2k3kgvjf" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_node.gd" id="1_euuvw"]
+[ext_resource type="Shader" uid="uid://x7u76nnod5" path="res://Shaders/note_shader.gdshader" id="2_bho0o"]
+[ext_resource type="Texture2D" uid="uid://dnd3khyewb5ns" path="res://Resources/note_texture_1_hold.tres" id="3_hrbi5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r12e0"]
+shader = ExtResource("2_bho0o")
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/pulse_intensity = 0.0
+shader_parameter/dissolve_amount = 0.0
+
+[node name="HoldNote" type="Node2D"]
+script = ExtResource("1_euuvw")
+metadata/_custom_type_script = "uid://e37n2k3kgvjf"
+
+[node name="NoteTexture" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_r12e0")
+custom_minimum_size = Vector2(80, 0)
+offset_left = 2.5
+offset_right = 82.5
+offset_bottom = 50.0
+scale = Vector2(1, -1)
+texture = ExtResource("3_hrbi5")

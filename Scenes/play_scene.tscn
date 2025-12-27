@@ -1,0 +1,730 @@
+[gd_scene load_steps=30 format=3 uid="uid://d3tx72n68gk20"]
+
+[ext_resource type="StyleBox" uid="uid://cyxe3exf8uwci" path="res://Resources/StyleBox/track_style_box.tres" id="1_25e06"]
+[ext_resource type="Material" uid="uid://bs7w7s6g0e4g1" path="res://Resources/Shader/key_visual_shader.tres" id="2_7eoc7"]
+[ext_resource type="Script" uid="uid://lqktsetapctj" path="res://addons/rhythm_game_core/Scripts/Note/rgc_track_key.gd" id="3_w1bh8"]
+[ext_resource type="Script" uid="uid://8e1cyk7nhkk" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_track.gd" id="5_7eoc7"]
+[ext_resource type="Theme" uid="uid://bqe770d1qlle8" path="res://Resources/Theme/ui_theme3.tres" id="6_8ck08"]
+[ext_resource type="Material" uid="uid://8jl2si1b5yhy" path="res://Resources/Shader/blur_and_dim_shader.tres" id="7_c065q"]
+[ext_resource type="Script" uid="uid://f5s8spvhkt4f" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_pool.gd" id="21_7eoc7"]
+[ext_resource type="AudioStream" uid="uid://cmd6h5oh2nxof" path="res://Sounds/hitsound.wav" id="21_1763q"]
+[ext_resource type="Script" uid="uid://vjcm5nu53rop" path="res://addons/rhythm_game_core/Scripts/Utility/rgc_note_position_calculator.gd" id="21_vl43l"]
+
+[sub_resource type="FontVariation" id="FontVariation_j3qlu"]
+spacing_glyph = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_j3qlu"]
+font = SubResource("FontVariation_j3qlu")
+font_size = 35
+shadow_color = Color(0, 0, 0, 0.568627)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="Gradient" id="Gradient_fbpj1"]
+colors = PackedColorArray(0, 0, 0, 0.54902, 0, 0, 0, 0.54902)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3cjv5"]
+gradient = SubResource("Gradient_fbpj1")
+width = 1280
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_j3qlu"]
+colors = PackedColorArray(0.676466, 0.676466, 0.676466, 1, 0.676466, 0.676466, 0.676466, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fbpj1"]
+gradient = SubResource("Gradient_j3qlu")
+width = 1280
+height = 10
+
+[sub_resource type="FontVariation" id="FontVariation_8n5jp"]
+variation_embolden = 0.25
+spacing_glyph = 3
+
+[sub_resource type="InputEventKey" id="InputEventKey_w1bh8"]
+device = -1
+physical_keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_lf4m5"]
+events = [SubResource("InputEventKey_w1bh8")]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6w285"]
+font_size = 35
+
+[sub_resource type="LabelSettings" id="LabelSettings_4qg1e"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_d3awe"]
+font_size = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kn3l"]
+bg_color = Color(0.6, 0.6, 0.6, 0.22352941)
+border_width_left = 2
+border_width_top = 2
+border_color = Color(0.54656905, 0.5465691, 0.5465688, 1)
+border_blend = true
+corner_radius_top_left = 16
+corner_detail = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_8n5jp"]
+font_size = 20
+
+[sub_resource type="FontVariation" id="FontVariation_2kn3l"]
+spacing_glyph = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_2kn3l"]
+font = SubResource("FontVariation_2kn3l")
+font_size = 50
+
+[sub_resource type="Gradient" id="Gradient_3cjv5"]
+colors = PackedColorArray(0.67977, 0.67977, 0.67977, 1, 0.92797, 0.92797, 0.92797, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2kn3l"]
+gradient = SubResource("Gradient_3cjv5")
+
+[sub_resource type="LabelSettings" id="LabelSettings_yglu3"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_w1bh8"]
+font_size = 30
+
+[node name="PlayScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OtherUI" type="Control" parent="."]
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="OtherUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+text = "0000000"
+label_settings = SubResource("LabelSettings_j3qlu")
+horizontal_alignment = 2
+
+[node name="ProgressBar" type="TextureProgressBar" parent="OtherUI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 2
+max_value = 1000.0
+texture_under = SubResource("GradientTexture2D_3cjv5")
+texture_progress = SubResource("GradientTexture2D_fbpj1")
+
+[node name="PauseButton" type="Button" parent="OtherUI"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 1
+offset_top = 10.0
+offset_right = 150.0
+offset_bottom = 70.0
+theme_override_fonts/font = SubResource("FontVariation_8n5jp")
+theme_override_font_sizes/font_size = 25
+shortcut = SubResource("Shortcut_lf4m5")
+text = "暂停"
+
+[node name="TrackUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="JudgeLine" type="ColorRect" parent="TrackUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = 270.0
+offset_right = 170.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.706303, 0.706303, 0.706303, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="TrackUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Visual" type="VBoxContainer" parent="TrackUI/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Tracks" type="HBoxContainer" parent="TrackUI/CenterContainer/Visual"]
+z_index = -3
+custom_minimum_size = Vector2(0, 720)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Track1" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_25e06")
+
+[node name="Key1" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track1" node_paths=PackedStringArray("key_name")]
+z_index = 2
+material = ExtResource("2_7eoc7")
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.5
+offset_top = -85.0
+offset_right = 42.5
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_w1bh8")
+key_name = NodePath("Label")
+metadata/_custom_type_script = "uid://lqktsetapctj"
+
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track1/Key1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "D"
+label_settings = SubResource("LabelSettings_6w285")
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Track2" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_25e06")
+
+[node name="Key2" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track2" node_paths=PackedStringArray("key_name")]
+z_index = 2
+material = ExtResource("2_7eoc7")
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.5
+offset_top = -85.0
+offset_right = 42.5
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_w1bh8")
+key_name = NodePath("Label")
+metadata/_custom_type_script = "uid://lqktsetapctj"
+
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track2/Key2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "F"
+label_settings = SubResource("LabelSettings_6w285")
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Track3" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_25e06")
+
+[node name="Key3" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track3" node_paths=PackedStringArray("key_name")]
+z_index = 2
+material = ExtResource("2_7eoc7")
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.5
+offset_top = -85.0
+offset_right = 42.5
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_w1bh8")
+key_name = NodePath("Label")
+metadata/_custom_type_script = "uid://lqktsetapctj"
+
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track3/Key3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "J"
+label_settings = SubResource("LabelSettings_6w285")
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 2
+
+[node name="Track4" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_25e06")
+
+[node name="Key4" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track4" node_paths=PackedStringArray("key_name")]
+z_index = 2
+material = ExtResource("2_7eoc7")
+custom_minimum_size = Vector2(85, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.5
+offset_top = -85.0
+offset_right = 42.5
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_w1bh8")
+key_name = NodePath("Label")
+metadata/_custom_type_script = "uid://lqktsetapctj"
+
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track4/Key4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "K"
+label_settings = SubResource("LabelSettings_6w285")
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Generator" type="CenterContainer" parent="TrackUI/CenterContainer"]
+layout_mode = 2
+
+[node name="Tracks" type="HBoxContainer" parent="TrackUI/CenterContainer/Generator"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Track1" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
+custom_minimum_size = Vector2(85, 720)
+layout_mode = 2
+script = ExtResource("5_7eoc7")
+track_index = &"1"
+bind_key_mapping = &"Key_1"
+bind_key_node = NodePath("../../../Visual/Tracks/Track1/Key1")
+judge_line_position = 630.0
+note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+metadata/_custom_type_script = "uid://8e1cyk7nhkk"
+
+[node name="Track2" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
+custom_minimum_size = Vector2(85, 720)
+layout_mode = 2
+script = ExtResource("5_7eoc7")
+track_index = &"2"
+bind_key_mapping = &"Key_2"
+bind_key_node = NodePath("../../../Visual/Tracks/Track2/Key2")
+judge_line_position = 630.0
+note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+metadata/_custom_type_script = "uid://8e1cyk7nhkk"
+
+[node name="Track3" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
+custom_minimum_size = Vector2(85, 720)
+layout_mode = 2
+script = ExtResource("5_7eoc7")
+track_index = &"3"
+bind_key_mapping = &"Key_3"
+bind_key_node = NodePath("../../../Visual/Tracks/Track3/Key3")
+judge_line_position = 630.0
+note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+metadata/_custom_type_script = "uid://8e1cyk7nhkk"
+
+[node name="Track4" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
+custom_minimum_size = Vector2(85, 720)
+layout_mode = 2
+script = ExtResource("5_7eoc7")
+track_index = &"4"
+bind_key_mapping = &"Key_4"
+bind_key_node = NodePath("../../../Visual/Tracks/Track4/Key4")
+judge_line_position = 630.0
+note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+metadata/_custom_type_script = "uid://8e1cyk7nhkk"
+
+[node name="ComboLabel" type="Label" parent="TrackUI"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.451
+anchor_right = 0.5
+anchor_bottom = 0.451
+offset_left = -90.0
+offset_top = 25.28
+offset_right = 91.0
+offset_bottom = 75.28
+text = "0"
+label_settings = SubResource("LabelSettings_4qg1e")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RatingLabel" type="Label" parent="TrackUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.521
+anchor_right = 0.5
+anchor_bottom = 0.521
+offset_left = -90.0
+offset_top = 24.88
+offset_right = 91.0
+offset_bottom = 74.88
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(90.5, 25)
+label_settings = SubResource("LabelSettings_d3awe")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PerformanceMonitor" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -70.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Background" type="Panel" parent="PerformanceMonitor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2kn3l")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PerformanceMonitor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="FpsCounter" type="Label" parent="PerformanceMonitor/VBoxContainer"]
+layout_mode = 2
+text = "0 / 0 FPS"
+label_settings = SubResource("LabelSettings_8n5jp")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ProcessTimeCounter" type="Label" parent="PerformanceMonitor/VBoxContainer"]
+layout_mode = 2
+text = "0.0 ms"
+label_settings = SubResource("LabelSettings_8n5jp")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PauseUI" type="Control" parent="."]
+process_mode = 2
+visible = false
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DimBackground" type="ColorRect" parent="PauseUI"]
+self_modulate = Color(1, 1, 1, 0.431373)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -161.5
+offset_right = 197.5
+offset_bottom = 161.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="PauseUI/VBoxContainer"]
+layout_mode = 2
+text = "GAME_PAUSE"
+label_settings = SubResource("LabelSettings_2kn3l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseUI/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("6_8ck08")
+theme_override_constants/separation = 40
+
+[node name="ContinueButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "CONTINUE_BUTTON"
+
+[node name="RetryButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "RETRY_BUTTON1"
+
+[node name="BackButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "BACK_BUTTON1"
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="BackgroundGroup" type="Control" parent="Background"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background/BackgroundGroup"]
+z_index = -4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_2kn3l")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="BlurShader" type="ColorRect" parent="Background/BackgroundGroup"]
+material = ExtResource("7_c065q")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Debug" type="CanvasLayer" parent="."]
+
+[node name="ScoreInfo" type="VBoxContainer" parent="Debug"]
+anchors_preset = -1
+anchor_left = 0.71900004
+anchor_top = 0.25
+anchor_right = 0.91200006
+anchor_bottom = 0.63600004
+offset_left = -0.32006836
+offset_right = 0.6398926
+offset_bottom = 0.07998657
+theme_override_constants/separation = 10
+
+[node name="PerfectLabel2" type="Label" parent="Debug/ScoreInfo"]
+layout_mode = 2
+text = "MARVELOUS: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="PerfectLabel" type="Label" parent="Debug/ScoreInfo"]
+layout_mode = 2
+text = "PERFECT: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="GreatLabel" type="Label" parent="Debug/ScoreInfo"]
+layout_mode = 2
+text = "GREAT: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="GoodLabel" type="Label" parent="Debug/ScoreInfo"]
+layout_mode = 2
+text = "GOOD: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="MissLabel" type="Label" parent="Debug/ScoreInfo"]
+layout_mode = 2
+text = "MISS: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="AccuracyLabel" type="Label" parent="Debug/ScoreInfo"]
+layout_mode = 2
+text = "ACC: {0} %"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="StartButton" type="Button" parent="Debug"]
+custom_minimum_size = Vector2(150, 60)
+anchors_preset = -1
+anchor_left = 0.055000003
+anchor_top = 0.319
+anchor_right = 0.172
+anchor_bottom = 0.40300003
+offset_left = -0.40000153
+offset_top = 0.31999207
+offset_right = -0.16000366
+offset_bottom = -0.16003418
+theme_override_font_sizes/font_size = 25
+text = "开始测试"
+
+[node name="ImportButton" type="Button" parent="Debug"]
+custom_minimum_size = Vector2(150, 60)
+anchors_preset = -1
+anchor_left = 0.187
+anchor_top = 0.319
+anchor_right = 0.305
+anchor_bottom = 0.40300003
+offset_left = 0.63998413
+offset_top = 0.31999207
+offset_right = -0.4000244
+offset_bottom = -0.16003418
+theme_override_font_sizes/font_size = 25
+text = "导入文件"
+
+[node name="BeatmapInfo" type="VBoxContainer" parent="Debug"]
+anchors_preset = -1
+anchor_left = 0.059000004
+anchor_top = 0.48600003
+anchor_right = 0.16100001
+anchor_bottom = 0.67200005
+offset_left = -0.5200043
+offset_top = 0.07998657
+offset_right = -0.08001709
+offset_bottom = 0.15997314
+theme_override_constants/separation = 10
+
+[node name="TapCount" type="Label" parent="Debug/BeatmapInfo"]
+layout_mode = 2
+text = "Tap: {0}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
+[node name="HoldCount" type="Label" parent="Debug/BeatmapInfo"]
+layout_mode = 2
+text = "Hold: {0}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
+[node name="HoldCount2" type="Label" parent="Debug/BeatmapInfo"]
+layout_mode = 2
+text = "Total: {0}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
+[node name="Scripts" type="Node" parent="."]
+
+[node name="RGCNotePositionCalculator" type="Node" parent="Scripts"]
+script = ExtResource("21_vl43l")
+BASE_SPEED = 1500.0
+SPAWN_DISTANCE = 1000.0
+metadata/_custom_type_script = "uid://vjcm5nu53rop"
+
+[node name="RGCNotePool" type="Node" parent="Scripts"]
+script = ExtResource("21_7eoc7")
+init_note_count = 20
+metadata/_custom_type_script = "uid://f5s8spvhkt4f"
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="BGM" type="AudioStreamPlayer" parent="Audio"]
+bus = &"BGM"
+
+[node name="HitSoundPlayer" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("21_1763q")
+bus = &"SFX"
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="GenerateTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
+[node name="BGMTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[node name="PauseWaitTimer" type="Timer" parent="Timers"]
+process_mode = 3
+wait_time = 5.0
+one_shot = true
+
+[node name="MonitorTimer" type="Timer" parent="Timers"]
+ignore_time_scale = true
+
+[node name="FileDialogs" type="Node" parent="."]
+
+[node name="OSUFile" type="FileDialog" parent="FileDialogs"]
+title = "Open a File"
+file_mode = 0
+display_mode = 1
+filters = PackedStringArray("*.osu")
+use_native_dialog = true
+
+[node name="AudioFile" type="FileDialog" parent="FileDialogs"]
+title = "Open a File"
+file_mode = 0
+display_mode = 1
+filters = PackedStringArray("*.mp3", "*.wav", "*.ogg")
+use_native_dialog = true

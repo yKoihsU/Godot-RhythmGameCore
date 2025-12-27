@@ -1,0 +1,112 @@
+extends Control
+class_name RGCNoteTrack
+
+## 音符场景集合
+@export var note_scene_dict: Dictionary[StringName, PackedScene] = {
+	"TapNote" = preload("res://addons/rhythm_game_core/Scenes/tap_note.tscn"),
+	"HoldNote" = preload("res://addons/rhythm_game_core/Scenes/hold_note.tscn")
+}
+
+## 轨道唯一ID
+@export var track_index: StringName
+
+## 轨道绑定的键位映射（项目设置/输入映射 中的按键映射名称）
+@export var bind_key_mapping: StringName
+
+## 按键节点
+@export var bind_key_node: RGCTrackKey
+
+## 判定线位置（[param position] 中的 [param y]）
+@export var judge_line_position: float
+
+## 音符位置计算器
+@export var note_pos_calculator: RGCNotePositionCalculator
+
+## 音符对象池
+@export var note_pool: RGCNotePool
+
+## 经过的时间
+var elasped_time: int
+
+## 现在击打的音符
+var current_hit_note: RGCNoteNode
+
+## 音符事件组
+var note_events: Array[RGCNoteEvent]
+var current_event: RGCNoteEvent
+var current_event_index: int
+
+func _ready() -> void:
+	set_process(false)
+	set_process_unhandled_key_input(false)
+	set_bind_key()
+
+func _process(_delta: float) -> void:
+	update_all_notes_position()
+	find_the_nearest_note()
+	update_current_hit_note_state()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key_event = event as InputEventKey
+	
+	if key_event.is_action_pressed(bind_key_mapping):
+		current_hit_note.judge_note(elasped_time)
+	
+	if key_event.is_action_released(bind_key_mapping):
+		current_hit_note.hold_release_judge(elasped_time)
+
+## 设置按键（如果有的话）
+func set_bind_key():
+	if bind_key_mapping and bind_key_node:
+		bind_key_node.set_key(bind_key_mapping)
+
+## 生成音符节点
+func generate_note_node():
+	if current_event_index >= note_events.size():
+		return
+	
+	current_event = note_events[current_event_index]
+	if elasped_time >= current_event.note_spawn_time:
+		var note: RGCNoteNode = note_pool.get_note_from_pool(current_event.note_type)
+		note.init_note_event(current_event)
+		add_child(note)
+		current_event_index += 1
+
+## 更新轨道节点下所有音符节点的位置
+func update_all_notes_position():
+	var elasped_time_pos_in_timeline: float = note_pos_calculator.elasped_time_to_pos(elasped_time)
+	
+	var notes := get_children()
+	for n: RGCNoteNode in notes:
+		n.update_position(judge_line_position, elasped_time_pos_in_timeline)
+
+## 寻找距离经过时间最近的音符
+func find_the_nearest_note():
+	var notes := get_children()
+	if notes.is_empty():
+		return
+	
+	notes.sort_custom(
+		func(a: RGCNoteNode, b: RGCNoteNode):
+			return a.note_start_time < b.note_start_time
+	)
+	
+	current_hit_note = notes[0]
+
+## 更新目前捕捉音符的状态
+func update_current_hit_note_state():
+	if not current_hit_note:
+		return
+	
+	current_hit_note.continuous_state_judge(elasped_time)
+	if current_hit_note.current_state == RGCNoteNode.States.END:
+		recycle_hit_note()
+
+## 回收击打音符到对象池中
+func recycle_hit_note():
+	note_pool.recycle_note(
+		current_hit_note.note_type, 
+		current_hit_note
+	)
+	
+	current_hit_note = null
