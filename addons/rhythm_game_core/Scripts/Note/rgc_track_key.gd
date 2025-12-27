@@ -2,10 +2,10 @@ extends Button
 class_name RGCTrackKey
 
 ## 未按下按键时的按键材质
-@export var normal_texture: StyleBox = preload("res://addons/rhythm_game_core/Resources/key_normal_texture.tres")
+@export var normal_texture: StyleBox
 
 ## 按下按键时的按键材质
-@export var pressed_texture: StyleBox = preload("res://addons/rhythm_game_core/Resources/key_press_texture.tres")
+@export var pressed_texture: StyleBox
 
 ## 按键名称Label
 @export var key_name: Label

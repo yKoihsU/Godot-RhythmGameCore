@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://8jl2si1b5yhy"]
+
+[ext_resource type="Shader" uid="uid://0t7tk0e4kui" path="res://Shaders/blur_and_dim_shader.gdshader" id="1_6xdoc"]
+
+[resource]
+shader = ExtResource("1_6xdoc")
+shader_parameter/dim_strength = 0.35
+shader_parameter/blur_strength = 1.6

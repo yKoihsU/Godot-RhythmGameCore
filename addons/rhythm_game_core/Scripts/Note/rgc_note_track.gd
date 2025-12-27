@@ -3,8 +3,8 @@ class_name RGCNoteTrack
 
 ## 音符场景集合
 @export var note_scene_dict: Dictionary[StringName, PackedScene] = {
-	"TapNote" = preload("res://addons/rhythm_game_core/Scenes/tap_note.tscn"),
-	"HoldNote" = preload("res://addons/rhythm_game_core/Scenes/hold_note.tscn")
+	"TapNote" = null,
+	"HoldNote" = null
 }
 
 ## 轨道唯一ID
