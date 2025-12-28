@@ -2,5 +2,6 @@
 .godot/
 /android/
 /addons/godot-git-plugin/
+/Beatmaps
 *.uid
 *.import

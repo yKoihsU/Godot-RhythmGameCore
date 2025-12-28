@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d3tx72n68gk20"]
+[gd_scene load_steps=36 format=3 uid="uid://d3tx72n68gk20"]
 
 [ext_resource type="StyleBox" uid="uid://c4yecl1ok57op" path="res://Resources/track_texture.tres" id="1_5lpdq"]
 [ext_resource type="StyleBox" uid="uid://6hy5thl5y0y2" path="res://Resources/key_normal_texture.tres" id="3_knw1p"]
@@ -7,7 +7,10 @@
 [ext_resource type="Shader" uid="uid://0t7tk0e4kui" path="res://Shaders/blur_and_dim_shader.gdshader" id="4_pakvq"]
 [ext_resource type="Script" uid="uid://8e1cyk7nhkk" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_track.gd" id="5_7eoc7"]
 [ext_resource type="PackedScene" uid="uid://83vbof6vpyvr" path="res://Scenes/tap_note.tscn" id="7_j1m55"]
+[ext_resource type="Script" uid="uid://b63jnaggdy1d8" path="res://Scripts/debug_ui.gd" id="8_45wvb"]
 [ext_resource type="PackedScene" uid="uid://r12p73mxl8tp" path="res://Scenes/hold_note.tscn" id="8_blhi5"]
+[ext_resource type="Script" uid="uid://c6a27qd8xkina" path="res://addons/rhythm_game_core/Scripts/Manager/rgc_track_manager.gd" id="9_io55t"]
+[ext_resource type="Script" uid="uid://cpcky2w8o8433" path="res://Scripts/file_dialogs.gd" id="12_ivbpn"]
 [ext_resource type="Script" uid="uid://f5s8spvhkt4f" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_pool.gd" id="21_7eoc7"]
 [ext_resource type="AudioStream" uid="uid://cr12xup38mmbh" path="res://Audios/hitsound.wav" id="21_1763q"]
 [ext_resource type="Script" uid="uid://vjcm5nu53rop" path="res://addons/rhythm_game_core/Scripts/Utility/rgc_note_position_calculator.gd" id="21_vl43l"]
@@ -76,6 +79,12 @@ spacing_glyph = 10
 font = SubResource("FontVariation_2kn3l")
 font_size = 50
 
+[sub_resource type="LabelSettings" id="LabelSettings_yglu3"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_w1bh8"]
+font_size = 30
+
 [sub_resource type="Gradient" id="Gradient_3cjv5"]
 colors = PackedColorArray(0.67977, 0.67977, 0.67977, 1, 0.92797, 0.92797, 0.92797, 1)
 
@@ -86,12 +95,6 @@ gradient = SubResource("Gradient_3cjv5")
 shader = ExtResource("4_pakvq")
 shader_parameter/dim_strength = 0.400000019
 shader_parameter/blur_strength = 1.0000000475
-
-[sub_resource type="LabelSettings" id="LabelSettings_yglu3"]
-font_size = 30
-
-[sub_resource type="LabelSettings" id="LabelSettings_w1bh8"]
-font_size = 30
 
 [node name="PlayScene" type="Control"]
 layout_mode = 3
@@ -566,6 +569,126 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "BACK_BUTTON1"
 
+[node name="DebugUI" type="Control" parent="." node_paths=PackedStringArray("tap_count", "hold_count", "total_note_count", "marvelous_count", "perfect_count", "great_count", "good_count", "miss_count", "accuracy")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_45wvb")
+tap_count = NodePath("BeatmapInfo/TapCount")
+hold_count = NodePath("BeatmapInfo/HoldCount")
+total_note_count = NodePath("BeatmapInfo/TotalNoteCount")
+marvelous_count = NodePath("ScoreInfo/MarvelousLabel")
+perfect_count = NodePath("ScoreInfo/PerfectLabel")
+great_count = NodePath("ScoreInfo/GreatLabel")
+good_count = NodePath("ScoreInfo/GoodLabel")
+miss_count = NodePath("ScoreInfo/MissLabel")
+accuracy = NodePath("ScoreInfo/AccuracyLabel")
+
+[node name="ScoreInfo" type="VBoxContainer" parent="DebugUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.71900004
+anchor_top = 0.25
+anchor_right = 0.91200006
+anchor_bottom = 0.63600004
+offset_left = -0.32006836
+offset_right = 0.6398926
+offset_bottom = 0.07998657
+theme_override_constants/separation = 10
+
+[node name="MarvelousLabel" type="Label" parent="DebugUI/ScoreInfo"]
+layout_mode = 2
+text = "MARVELOUS: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="PerfectLabel" type="Label" parent="DebugUI/ScoreInfo"]
+layout_mode = 2
+text = "PERFECT: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="GreatLabel" type="Label" parent="DebugUI/ScoreInfo"]
+layout_mode = 2
+text = "GREAT: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="GoodLabel" type="Label" parent="DebugUI/ScoreInfo"]
+layout_mode = 2
+text = "GOOD: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="MissLabel" type="Label" parent="DebugUI/ScoreInfo"]
+layout_mode = 2
+text = "MISS: {0}"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="AccuracyLabel" type="Label" parent="DebugUI/ScoreInfo"]
+layout_mode = 2
+text = "ACC: {0} %"
+label_settings = SubResource("LabelSettings_yglu3")
+
+[node name="StartButton" type="Button" parent="DebugUI"]
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.055000003
+anchor_top = 0.319
+anchor_right = 0.172
+anchor_bottom = 0.40300003
+offset_left = -0.40000153
+offset_top = 0.31999207
+offset_right = -0.16000366
+offset_bottom = -0.16003418
+theme_override_font_sizes/font_size = 25
+text = "开始测试"
+
+[node name="ImportButton" type="Button" parent="DebugUI"]
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.187
+anchor_top = 0.319
+anchor_right = 0.305
+anchor_bottom = 0.40300003
+offset_left = 0.63998413
+offset_top = 0.31999207
+offset_right = -0.4000244
+offset_bottom = -0.16003418
+theme_override_font_sizes/font_size = 25
+text = "导入文件"
+
+[node name="BeatmapInfo" type="VBoxContainer" parent="DebugUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.059000004
+anchor_top = 0.48600003
+anchor_right = 0.16100001
+anchor_bottom = 0.67200005
+offset_left = -0.5200043
+offset_top = 0.07998657
+offset_right = -0.08001709
+offset_bottom = 0.15997314
+theme_override_constants/separation = 10
+
+[node name="TapCount" type="Label" parent="DebugUI/BeatmapInfo"]
+layout_mode = 2
+text = "Tap: {0}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
+[node name="HoldCount" type="Label" parent="DebugUI/BeatmapInfo"]
+layout_mode = 2
+text = "Hold: {0}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
+[node name="TotalNoteCount" type="Label" parent="DebugUI/BeatmapInfo"]
+layout_mode = 2
+text = "Total: {0}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -2
 
@@ -601,116 +724,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Debug" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="ScoreInfo" type="VBoxContainer" parent="Debug"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.71900004
-anchor_top = 0.25
-anchor_right = 0.91200006
-anchor_bottom = 0.63600004
-offset_left = -0.32006836
-offset_right = 0.6398926
-offset_bottom = 0.07998657
-theme_override_constants/separation = 10
-
-[node name="PerfectLabel2" type="Label" parent="Debug/ScoreInfo"]
-layout_mode = 2
-text = "MARVELOUS: {0}"
-label_settings = SubResource("LabelSettings_yglu3")
-
-[node name="PerfectLabel" type="Label" parent="Debug/ScoreInfo"]
-layout_mode = 2
-text = "PERFECT: {0}"
-label_settings = SubResource("LabelSettings_yglu3")
-
-[node name="GreatLabel" type="Label" parent="Debug/ScoreInfo"]
-layout_mode = 2
-text = "GREAT: {0}"
-label_settings = SubResource("LabelSettings_yglu3")
-
-[node name="GoodLabel" type="Label" parent="Debug/ScoreInfo"]
-layout_mode = 2
-text = "GOOD: {0}"
-label_settings = SubResource("LabelSettings_yglu3")
-
-[node name="MissLabel" type="Label" parent="Debug/ScoreInfo"]
-layout_mode = 2
-text = "MISS: {0}"
-label_settings = SubResource("LabelSettings_yglu3")
-
-[node name="AccuracyLabel" type="Label" parent="Debug/ScoreInfo"]
-layout_mode = 2
-text = "ACC: {0} %"
-label_settings = SubResource("LabelSettings_yglu3")
-
-[node name="StartButton" type="Button" parent="Debug"]
-custom_minimum_size = Vector2(150, 60)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.055000003
-anchor_top = 0.319
-anchor_right = 0.172
-anchor_bottom = 0.40300003
-offset_left = -0.40000153
-offset_top = 0.31999207
-offset_right = -0.16000366
-offset_bottom = -0.16003418
-theme_override_font_sizes/font_size = 25
-text = "开始测试"
-
-[node name="ImportButton" type="Button" parent="Debug"]
-custom_minimum_size = Vector2(150, 60)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.187
-anchor_top = 0.319
-anchor_right = 0.305
-anchor_bottom = 0.40300003
-offset_left = 0.63998413
-offset_top = 0.31999207
-offset_right = -0.4000244
-offset_bottom = -0.16003418
-theme_override_font_sizes/font_size = 25
-text = "导入文件"
-
-[node name="BeatmapInfo" type="VBoxContainer" parent="Debug"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.059000004
-anchor_top = 0.48600003
-anchor_right = 0.16100001
-anchor_bottom = 0.67200005
-offset_left = -0.5200043
-offset_top = 0.07998657
-offset_right = -0.08001709
-offset_bottom = 0.15997314
-theme_override_constants/separation = 10
-
-[node name="TapCount" type="Label" parent="Debug/BeatmapInfo"]
-layout_mode = 2
-text = "Tap: {0}"
-label_settings = SubResource("LabelSettings_w1bh8")
-
-[node name="HoldCount" type="Label" parent="Debug/BeatmapInfo"]
-layout_mode = 2
-text = "Hold: {0}"
-label_settings = SubResource("LabelSettings_w1bh8")
-
-[node name="HoldCount2" type="Label" parent="Debug/BeatmapInfo"]
-layout_mode = 2
-text = "Total: {0}"
-label_settings = SubResource("LabelSettings_w1bh8")
-
 [node name="Scripts" type="Node" parent="."]
+
+[node name="RGCTrackManager" type="Node" parent="Scripts" node_paths=PackedStringArray("track_parent_node")]
+script = ExtResource("9_io55t")
+track_parent_node = NodePath("../../TrackUI/CenterContainer/Generator/Tracks")
+metadata/_custom_type_script = "uid://c6a27qd8xkina"
 
 [node name="RGCNotePositionCalculator" type="Node" parent="Scripts"]
 script = ExtResource("21_vl43l")
@@ -753,7 +772,13 @@ one_shot = true
 [node name="MonitorTimer" type="Timer" parent="Timers"]
 ignore_time_scale = true
 
-[node name="FileDialogs" type="Node" parent="."]
+[node name="FileDialogs" type="Node" parent="." node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "osu_file_dialog", "audio_file_dialog")]
+script = ExtResource("12_ivbpn")
+note_pos_calculator = NodePath("../Scripts/RGCNotePositionCalculator")
+track_manager = NodePath("../Scripts/RGCTrackManager")
+debug_ui = NodePath("../DebugUI")
+osu_file_dialog = NodePath("OSUFile")
+audio_file_dialog = NodePath("AudioFile")
 
 [node name="OSUFile" type="FileDialog" parent="FileDialogs"]
 title = "Open a File"
@@ -768,3 +793,6 @@ file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.mp3", "*.wav", "*.ogg")
 use_native_dialog = true
+
+[connection signal="pressed" from="DebugUI/ImportButton" to="FileDialogs" method="_on_import_button_pressed"]
+[connection signal="file_selected" from="FileDialogs/OSUFile" to="FileDialogs" method="_on_osu_file_file_selected"]

@@ -1,6 +1,22 @@
 extends Node
 class_name RGCFileManager
 
+static func save_parse_file(
+	save_file_path: String, 
+	timing_points: PackedStringArray, 
+	hit_objects: PackedStringArray
+	):
+	var beatmap_res := RGCBeatmap.new()
+	beatmap_res.string_array_to_note_datas(hit_objects)
+	beatmap_res.string_array_to_timing_point_datas(timing_points)
+	
+	var result: Error = ResourceSaver.save(beatmap_res, save_file_path)
+	if result == OK:
+		print("保存资源文件成功")
+		return
+	
+	push_error("保存失败！错误码：%d" % result)
+
 static func build_time_segments(pos_calculator: RGCNotePositionCalculator, beatmap_file: String):
 	var file := FileAccess.open(beatmap_file, FileAccess.READ)
 	var parser: RGCParserOM = RGCParserOM.new()

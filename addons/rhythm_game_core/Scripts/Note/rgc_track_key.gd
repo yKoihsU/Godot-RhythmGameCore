@@ -27,5 +27,8 @@ func set_key(key_mapping: StringName):
 	shortcut = _shortcut
 	
 	# 设置显示文字
+	if not key_name:
+		return
+	
 	var first_event: InputEventKey = input_events[0]
 	key_name.text = OS.get_keycode_string(first_event.physical_keycode)

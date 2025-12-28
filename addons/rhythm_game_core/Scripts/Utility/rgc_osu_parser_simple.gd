@@ -1,8 +1,8 @@
 extends RefCounted
 class_name RGCParserOM
 
-const HIT_OBJECT_INFO_FORMAT: String = "{start_time:%d, end_time:%d, note_type:%s, track:%d}"
-const TIMING_POINT_INFO_FORMAT: String = "{time:%d, bpm:%.2f, speed:%.2f}"
+const HIT_OBJECT_INFO_FORMAT: String = "{\"start_time\":%d, \"end_time\":%d, \"note_type\":\"%s\", \"track\":%d}"
+const TIMING_POINT_INFO_FORMAT: String = "{\"time\":%d, \"bpm\":%.2f, \"speed\":%.2f}"
 
 ## 解析谱面元数据
 func parse_metadata():
@@ -23,8 +23,13 @@ func parse_timing_points(file_content: String) -> PackedStringArray:
 	for line: String in lines:
 		line = line.strip_edges()
 		
-		if line == "[Timingpoints]":
+		if line == "[TimingPoints]":
 			is_timing_points_section = true
+			continue
+		
+		# 如果已经离开HitObjects段落（遇到新的段落开始）
+		if is_timing_points_section and line.begins_with("[") and line.ends_with("]"):
+			break
 		
 		if not is_timing_points_section:
 			continue
@@ -70,6 +75,9 @@ func parse_timing_points(file_content: String) -> PackedStringArray:
 					current_bpm, 
 					cache_speed * speed
 				])
+	
+	if results.is_empty():
+		push_warning("解析结果为空！文件可能不完整")
 	
 	return results
 
@@ -135,6 +143,9 @@ func parse_hit_objects(keys: int, file_content: String) -> PackedStringArray:
 			# 格式化为输出行: 开始时间,结束时间,音符类型,轨道
 			var output_line: String = HIT_OBJECT_INFO_FORMAT % [start_time, end_time, note_type, track]
 			results.append(output_line)
+	
+	if results.is_empty():
+		push_warning("解析结果为空！文件可能不完整")
 	
 	return results
 

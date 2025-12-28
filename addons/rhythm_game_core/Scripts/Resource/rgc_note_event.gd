@@ -1,11 +1,12 @@
-extends Resource
+extends RefCounted
 class_name RGCNoteEvent
 
 const OUTPUT_INFO: String = "start_time:%d, end_time:%d, note_type:%s, track:%s"
 
 enum NoteType {
 	TAP, ## 单点，仅有 “打击" 一个状态
-	HOLD ## 长按， 除了基础状态还有 "正在按下", “中断”, "中断后按下" 三个额外状态
+	HOLD, ## 长按， 除了基础状态还有 "正在按下", “中断”, "中断后按下" 三个额外状态
+	ALL ## 全音符，仅用于数据统计
 }
 
 ## 音符的起始时间，单位为毫秒(ms)
@@ -38,5 +39,8 @@ func _to_string() -> String:
 	var note_type_name: String = NoteType.find_key(note_type)
 	return OUTPUT_INFO % [note_start_time, note_end_time, note_type_name, note_track_index]
 
+static func type_enum_to_string(type: NoteType) -> String:
+	return NoteType.find_key(type)
+
 static func string_to_type_enum(key_name: String) -> NoteType:
-	return NoteType.get(key_name, NoteType.TAP)
+	return NoteType.get(key_name.to_upper(), NoteType.TAP)

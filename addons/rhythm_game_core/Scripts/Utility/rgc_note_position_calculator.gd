@@ -26,11 +26,25 @@ class Segment:
 		return cumulative_end
 
 ## 建立时间切片组
-func build_segments(time_datas: PackedStringArray):
+func build_segments(time_datas: Array[Dictionary]):
 	var cumulative_position: float = 0.0
+	
+	if time_datas.size() == 1:
+		var t_dict: Dictionary = time_datas[0]
+		
+		var seg: Segment = Segment.new()
+		seg.start_time = t_dict["start_time"]
+		seg.end_time = MAX_INT
+		seg.speed = t_dict["speed"]
+		seg.cumulative = 0.0
+		seg.cumulative_end = MAX_INT
+		
+		segments.append(seg)
+		return
+	
 	for i in range(1, time_datas.size()):
-		var t_dict: Dictionary = str_to_var(time_datas[i-1])
-		var next_t_dict: Dictionary = str_to_var(time_datas[i])
+		var t_dict: Dictionary = time_datas[i-1]
+		var next_t_dict: Dictionary = time_datas[i]
 		
 		var seg: Segment = Segment.new()
 		seg.start_time = t_dict["start_time"]

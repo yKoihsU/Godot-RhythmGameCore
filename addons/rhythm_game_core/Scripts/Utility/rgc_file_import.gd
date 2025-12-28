@@ -14,10 +14,10 @@ func _get_recognized_extensions() -> PackedStringArray:
 	return ["osu"]
 
 func _get_save_extension() -> String:
-	return "txt"
+	return "tres"
 
 func _get_resource_type() -> String:
-	return "TextFile"
+	return "RGCBeatmap"
 
 func _get_preset_count() -> int:
 	return 1
@@ -46,26 +46,13 @@ func _import(
 		gen_files: Array[String]
 	) -> Error:
 	var keys: int = options.get("keys", KEYS)
-	var output_lines: Array[String] = []
 	
+	var file := FileAccess.open(source_file, FileAccess.READ)
 	var parser := RGCParserOM.new()
-	output_lines = parser.parse_hit_objects(keys, source_file)
+	var timing_points: PackedStringArray = parser.parse_timing_points(file.get_as_text())
+	var hit_objects: PackedStringArray = parser.parse_hit_objects(keys, file.get_as_text())
 	
-	if output_lines.is_empty():
-		return ERR_FILE_CANT_OPEN
-	
-	# 写入输出文件
 	var output_file_path := "%s.%s" % [save_path, _get_save_extension()]
-	var output_file := FileAccess.open(output_file_path, FileAccess.WRITE)
-	if not output_file:
-		return ERR_FILE_CANT_OPEN
-	
-	# 可选：添加表头
-	output_file.store_line("[NoteInfo]")
-	
-	for line in output_lines:
-		output_file.store_line(line)
-	
-	output_file.close()
-	
+	RGCFileManager.save_parse_file(output_file_path, timing_points, hit_objects)
+
 	return OK
