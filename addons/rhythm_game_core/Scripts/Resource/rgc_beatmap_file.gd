@@ -23,15 +23,15 @@ func count_note_count(note_type: RGCNoteEvent.NoteType) -> int:
 	# 统计全部音符
 	if type_name == "all":
 		for k in dict_key:
-			var track_note_datas: Array[Dictionary] = note_datas[k]
+			var track_note_datas: Array = note_datas[k]
 			note_count += track_note_datas.size()
 		
 		return note_count
 	
 	# 统计特定种类音符
 	for k in dict_key:
-		var track_note_datas: Array[Dictionary] = note_datas[k]
-		for d in track_note_datas:
+		var track_note_datas: Array = note_datas[k]
+		for d: Dictionary in track_note_datas:
 			if d["note_type"] == type_name:
 				note_count += 1
 	

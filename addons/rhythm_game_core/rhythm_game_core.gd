@@ -1,29 +1,29 @@
 @tool
 extends EditorPlugin
 
-const OSU_IMPORTER: Resource = preload("res://addons/rhythm_game_core/Scripts/Utility/rgc_file_import.gd") 
+const OSU_IMPORTER: Resource = preload("res://addons/rhythm_game_core/Scripts/Utility/rgc_osu_file_import.gd")
 
 var osu_importer: EditorImportPlugin
+var beatmap_saver: RGCBeatmapSaver
+var beatmap_loader: RGCBeatmapLoader
 
 func _init() -> void:
 	osu_importer = OSU_IMPORTER.new()
+	beatmap_saver = RGCBeatmapSaver.new()
+	beatmap_loader = RGCBeatmapLoader.new()
 
 func _enable_plugin() -> void:
-	# Add autoloads here.
-	add_import_plugin(osu_importer)
 	pass
 
 func _disable_plugin() -> void:
-	# Remove autoloads here.
-	remove_import_plugin(osu_importer)
 	pass
-
 
 func _enter_tree() -> void:
-	# Initialization of the plugin goes here.
-	pass
-
+	add_import_plugin(osu_importer)
+	ResourceSaver.add_resource_format_saver(beatmap_saver)
+	ResourceLoader.add_resource_format_loader(beatmap_loader)
 
 func _exit_tree() -> void:
-	# Clean-up of the plugin goes here.
-	pass
+	remove_import_plugin(osu_importer)
+	ResourceSaver.remove_resource_format_saver(beatmap_saver)
+	ResourceLoader.remove_resource_format_loader(beatmap_loader)

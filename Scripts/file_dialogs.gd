@@ -12,6 +12,17 @@ func _on_import_button_pressed() -> void:
 	osu_file_dialog.popup_centered()
 
 func _on_osu_file_file_selected(path: String) -> void:
+	if path.get_extension() == "beatmap":
+		var start_load_time: int = Time.get_ticks_msec()
+		
+		var res: RGCBeatmap = ResourceLoader.load(path, "RGCBeatmap", ResourceLoader.CACHE_MODE_REPLACE)
+		track_manager.convert_data_to_track_event(res)
+		
+		print("加载时间: %d ms" % (Time.get_ticks_msec() - start_load_time))
+	
+		debug_ui.set_note_count_data(res)
+		return
+	
 	var parser := RGCParserOM.new()
 	
 	var start_load_time: int = Time.get_ticks_msec()
@@ -21,14 +32,13 @@ func _on_osu_file_file_selected(path: String) -> void:
 	var hit_objects: PackedStringArray = parser.parse_hit_objects(4, file.get_as_text())
 	
 	var file_name := path.get_file().get_basename()
-	var save_file_path: String = path.get_base_dir().path_join(file_name) + ".tres"
+	var save_file_path: String = path.get_base_dir().path_join(file_name) + ".beatmap"
 	RGCFileManager.save_parse_file(save_file_path, timing_points, hit_objects)
 	
 	var beatmap_res: RGCBeatmap = ResourceLoader.load(save_file_path, "RGCBeatmap", ResourceLoader.CACHE_MODE_REPLACE)
-	track_manager.note_datas = beatmap_res.note_datas
 	track_manager.convert_data_to_track_event(beatmap_res)
 	
-	print("加载时间：%d ms" % (Time.get_ticks_msec() - start_load_time))
+	print("加载时间: %d ms" % (Time.get_ticks_msec() - start_load_time))
 	
 	debug_ui.set_note_count_data(beatmap_res)
 	

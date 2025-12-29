@@ -6,6 +6,8 @@ static func save_parse_file(
 	timing_points: PackedStringArray, 
 	hit_objects: PackedStringArray
 	):
+	var start_save_time: int = Time.get_ticks_msec()
+	
 	var beatmap_res := RGCBeatmap.new()
 	beatmap_res.string_array_to_note_datas(hit_objects)
 	beatmap_res.string_array_to_timing_point_datas(timing_points)
@@ -13,6 +15,7 @@ static func save_parse_file(
 	var result: Error = ResourceSaver.save(beatmap_res, save_file_path)
 	if result == OK:
 		print("保存资源文件成功")
+		print("用时: %d ms" % (Time.get_ticks_msec() - start_save_time))
 		return
 	
 	push_error("保存失败！错误码：%d" % result)

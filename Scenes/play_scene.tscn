@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://cpcky2w8o8433" path="res://Scripts/file_dialogs.gd" id="12_ivbpn"]
 [ext_resource type="Script" uid="uid://f5s8spvhkt4f" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_pool.gd" id="21_7eoc7"]
 [ext_resource type="AudioStream" uid="uid://cr12xup38mmbh" path="res://Audios/hitsound.wav" id="21_1763q"]
-[ext_resource type="Script" uid="uid://vjcm5nu53rop" path="res://addons/rhythm_game_core/Scripts/Utility/rgc_note_position_calculator.gd" id="21_vl43l"]
+[ext_resource type="Script" uid="uid://vjcm5nu53rop" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_position_calculator.gd" id="21_vl43l"]
 
 [sub_resource type="FontVariation" id="FontVariation_j3qlu"]
 spacing_glyph = 5
@@ -726,9 +726,10 @@ mouse_filter = 2
 
 [node name="Scripts" type="Node" parent="."]
 
-[node name="RGCTrackManager" type="Node" parent="Scripts" node_paths=PackedStringArray("track_parent_node")]
+[node name="RGCTrackManager" type="Node" parent="Scripts" node_paths=PackedStringArray("track_parent_node", "note_pos_calculator")]
 script = ExtResource("9_io55t")
 track_parent_node = NodePath("../../TrackUI/CenterContainer/Generator/Tracks")
+note_pos_calculator = NodePath("../RGCNotePositionCalculator")
 metadata/_custom_type_script = "uid://c6a27qd8xkina"
 
 [node name="RGCNotePositionCalculator" type="Node" parent="Scripts"]
@@ -784,7 +785,7 @@ audio_file_dialog = NodePath("AudioFile")
 title = "Open a File"
 file_mode = 0
 display_mode = 1
-filters = PackedStringArray("*.osu")
+filters = PackedStringArray("*.osu", "*.beatmap")
 use_native_dialog = true
 
 [node name="AudioFile" type="FileDialog" parent="FileDialogs"]

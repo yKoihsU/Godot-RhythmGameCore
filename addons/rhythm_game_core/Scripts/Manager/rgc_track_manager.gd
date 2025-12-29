@@ -13,6 +13,7 @@ func _ready() -> void:
 	track_nodes = track_parent_node.get_children()
 
 func convert_data_to_track_event(beatmap_res: RGCBeatmap):
+	note_datas = beatmap_res.note_datas
 	note_pos_calculator.build_segments(beatmap_res.timing_point_datas)
 	
 	var track_dict: Dictionary[StringName, RGCNoteTrack]
@@ -24,16 +25,16 @@ func convert_data_to_track_event(beatmap_res: RGCBeatmap):
 			continue
 		
 		var note_events: Array[RGCNoteEvent] = []
-		var track_note: Array[Dictionary] = note_datas[key]
-		for n in track_note:
-			var type: RGCNoteEvent.NoteType = RGCNoteEvent.string_to_type_enum(n["track"])
+		var track_note: Array = note_datas[key]
+		for n: Dictionary in track_note:
+			var type: RGCNoteEvent.NoteType = RGCNoteEvent.string_to_type_enum(n["note_type"])
 			var timeline_pos: float = note_pos_calculator.scroll_to_pos(n["start_time"])
 			var spawn_time: int = note_pos_calculator.scroll_to_time(timeline_pos, true)
 			
 			var event := RGCNoteEvent.new(
 				n["start_time"],
 				n["end_time"],
-				n["track"],
+				str(n["track"]),
 				type,
 				spawn_time,
 				timeline_pos

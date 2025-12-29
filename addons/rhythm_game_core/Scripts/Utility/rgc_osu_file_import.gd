@@ -14,7 +14,7 @@ func _get_recognized_extensions() -> PackedStringArray:
 	return ["osu"]
 
 func _get_save_extension() -> String:
-	return "tres"
+	return "beatmap"
 
 func _get_resource_type() -> String:
 	return "RGCBeatmap"
