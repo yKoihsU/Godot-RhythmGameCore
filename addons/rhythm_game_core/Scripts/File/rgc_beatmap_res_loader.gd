@@ -2,10 +2,10 @@ extends ResourceFormatLoader
 class_name RGCBeatmapLoader
 
 func _handles_type(type: StringName) -> bool:
-	return type == &"RGCBeatmap"
+	return type == &"RGCBeatmap" or ClassDB.is_parent_class(type, &"Resource")
 
 func _get_resource_type(path: String) -> String:
-	return "Resource"
+	return "RGCBeatmap"
 
 func _get_recognized_extensions() -> PackedStringArray:
 	return ["beatmap"]

@@ -10,6 +10,8 @@ const MAX_INT: int = 2147483647
 @export var SPAWN_DISTANCE: float
 
 var segments: Array[Segment]
+var current_seg: Segment
+
 var seg_pos_index: int
 var seg_time_index: int
 var seg_elasped_time_index: int
@@ -146,7 +148,7 @@ func scroll_to_time(scroll_value: float, use_spawn_distance: bool) -> int:
 	var seg_end: float = seg.cumulative_end
 	
 	# 当 scroll_value 在 seg的cumulative区间 内
-	if scroll_value >= seg.cumulative and (seg_end == INF or scroll_value < seg_end):
+	if scroll_value >= seg.cumulative and (seg_end == MAX_INT or scroll_value < seg_end):
 		return seg.start_time + (scroll_value - seg.cumulative) / (BASE_SPEED * seg.speed) * 1000.0
 	
 	# 当 scroll_value 超过 seg的cumulative区间
@@ -154,7 +156,7 @@ func scroll_to_time(scroll_value: float, use_spawn_distance: bool) -> int:
 		for i in range(seg_time_index + 1, segments.size()):
 			seg = segments[seg_time_index]
 			seg_end = seg.cumulative_end
-			if scroll_value >= seg.cumulative and (seg_end == INF or scroll_value < seg_end):
+			if scroll_value >= seg.cumulative and (seg_end == MAX_INT or scroll_value < seg_end):
 				return seg.start_time + (scroll_value - seg.cumulative) / (BASE_SPEED * seg.speed) * 1000.0
 		
 		var last_seg: Segment = segments[-1]
@@ -165,7 +167,7 @@ func scroll_to_time(scroll_value: float, use_spawn_distance: bool) -> int:
 	for i in range(seg_time_index - 1, -1, -1):
 		seg = segments[seg_time_index]
 		seg_end = seg.cumulative_end
-		if scroll_value >= seg.cumulative and (seg_end == INF or scroll_value < seg_end):
+		if scroll_value >= seg.cumulative and (seg_end == MAX_INT or scroll_value < seg_end):
 			return seg.start_time + (scroll_value - seg.cumulative) / (BASE_SPEED * seg.speed) * 1000.0
 	
 	# 保险情况下二分查找
@@ -189,10 +191,13 @@ func scroll_to_time(scroll_value: float, use_spawn_distance: bool) -> int:
 
 ## 将经过的时间转化为音符位置，根据时间正向流动的特点做了优化
 func elasped_time_to_pos(time: int) -> float:
-	var current_seg: Segment = segments[seg_elasped_time_index]
-	if time > current_seg.end_time and seg_elasped_time_index != segments.size() - 1:
+	if seg_elasped_time_index >= segments.size() - 1:
+		seg_elasped_time_index = segments.size() - 1
+		current_seg = segments[seg_elasped_time_index]
+		return current_seg.cumulative + BASE_SPEED * current_seg.speed * (time - current_seg.start_time) / 1000.0
+	
+	if time > current_seg.end_time:
 		seg_elasped_time_index += 1
-		seg_elasped_time_index = clampi(seg_elasped_time_index, 0, segments.size() - 1)
 		current_seg = segments[seg_elasped_time_index]
 	
 	return current_seg.cumulative + BASE_SPEED * current_seg.speed * (time - current_seg.start_time) / 1000.0

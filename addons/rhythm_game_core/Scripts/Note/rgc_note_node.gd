@@ -11,6 +11,8 @@ enum States {
 	AUTO, ## 自动
 }
 
+@export var note_texture: TextureRect
+
 var current_state: States = States.PRESS
 
 var note_type: RGCNoteEvent.NoteType
@@ -21,22 +23,54 @@ var start_judge_range: int
 var note_end_time: int = -1
 var end_judge_range: int
 
-var note_timeline_pos: float
+var note_timeline_pos: float = 0.0
 
+## 仅在hold类音符中使用
+var note_length: float = 0.0
+
+## 初始化参数
 func init_note_event(note_event: RGCNoteEvent) -> void:
 	current_state = States.INIT
 	note_type = note_event.note_type
 	note_start_time = note_event.note_start_time
 	note_end_time = note_event.note_end_time
 	note_timeline_pos = note_event.note_timeline_pos
+	note_length = note_event.note_length
+
+## 初始化材质
+func init_texture(texture_dict: Dictionary):
+	match note_type:
+		RGCNoteEvent.NoteType.TAP:
+			note_texture.texture = texture_dict["TapNote"]
+		
+		RGCNoteEvent.NoteType.HOLD:
+			note_texture.texture = texture_dict["HoldNote"]
+
+## 设置长度
+func set_note_length():
+	if is_zero_approx(note_length):
+		return
+	
+	if not note_texture:
+		return
+	
+	note_texture.size.y = note_length
 
 func _enter_tree() -> void:
 	start_judge_range = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GREAT)
 	end_judge_range = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GOOD)
 
+func reset_info():
+	current_state = States.INIT
+	note_type = RGCNoteEvent.NoteType.TAP
+	note_start_time = -1
+	note_end_time = -1
+	note_timeline_pos = 0.0
+
 ## 更新位置
 func update_position(judge_line_pos: float, elapsed_time_pos_in_timeline: float):
-	var pos: float = judge_line_pos - (note_timeline_pos - elapsed_time_pos_in_timeline)
+	# var pos: float = judge_line_pos - (note_timeline_pos - elapsed_time_pos_in_timeline)
+	var pos: float = elapsed_time_pos_in_timeline - note_timeline_pos + judge_line_pos
 	position.y = pos
 
 ## 持续状态判定，部分状态持续一段时间后转为另一个状态

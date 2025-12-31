@@ -54,7 +54,8 @@ static func build_note_objects(pos_calculator: RGCNotePositionCalculator, beatma
 			track,
 			note_type,
 			spawn_time,
-			timeline_pos
+			timeline_pos, 
+			0.0
 		)
 		
 		if not results.has(track):

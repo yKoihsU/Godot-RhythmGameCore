@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const OSU_IMPORTER: Resource = preload("res://addons/rhythm_game_core/Scripts/Utility/rgc_osu_file_import.gd")
+const OSU_IMPORTER: Resource = preload("res://addons/rhythm_game_core/Scripts/File/rgc_osu_file_import.gd")
 
 var osu_importer: EditorImportPlugin
 var beatmap_saver: RGCBeatmapSaver

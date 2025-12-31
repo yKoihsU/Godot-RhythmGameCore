@@ -32,15 +32,15 @@ func recycle_note(note_type: RGCNoteEvent.NoteType, note: RGCNoteNode):
 func get_note_from_pool(note_type: RGCNoteEvent.NoteType) -> RGCNoteNode:
 	match note_type:
 		RGCNoteEvent.NoteType.TAP:
-			var tap_note_pool: Array[RGCNoteNode] = note_pool_dict["TAP"]
+			var tap_note_pool: Array = note_pool_dict["TAP"]
 			if tap_note_pool.is_empty():
-				return note_scene_dict["TAP"].instantiate()
+				return note_scene_dict["TapNote"].instantiate()
 			
 			return tap_note_pool.pop_back()
 		RGCNoteEvent.NoteType.HOLD:
-			var hold_note_pool: Array[RGCNoteNode] = note_pool_dict["HOLD"]
+			var hold_note_pool: Array = note_pool_dict["HOLD"]
 			if hold_note_pool.is_empty():
-				return note_scene_dict["HOLD"].instantiate()
+				return note_scene_dict["HoldNote"].instantiate()
 			
 			return hold_note_pool.pop_back()
 	

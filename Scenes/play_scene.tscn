@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://d3tx72n68gk20"]
+[gd_scene load_steps=43 format=3 uid="uid://d3tx72n68gk20"]
 
 [ext_resource type="StyleBox" uid="uid://c4yecl1ok57op" path="res://Resources/track_texture.tres" id="1_5lpdq"]
 [ext_resource type="StyleBox" uid="uid://6hy5thl5y0y2" path="res://Resources/key_normal_texture.tres" id="3_knw1p"]
@@ -7,10 +7,17 @@
 [ext_resource type="Shader" uid="uid://0t7tk0e4kui" path="res://Shaders/blur_and_dim_shader.gdshader" id="4_pakvq"]
 [ext_resource type="Script" uid="uid://8e1cyk7nhkk" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_track.gd" id="5_7eoc7"]
 [ext_resource type="PackedScene" uid="uid://83vbof6vpyvr" path="res://Scenes/tap_note.tscn" id="7_j1m55"]
+[ext_resource type="Texture2D" uid="uid://durlupe5di2cv" path="res://Resources/note_texture_1.tres" id="8_8n5jp"]
 [ext_resource type="Script" uid="uid://b63jnaggdy1d8" path="res://Scripts/debug_ui.gd" id="8_45wvb"]
 [ext_resource type="PackedScene" uid="uid://r12p73mxl8tp" path="res://Scenes/hold_note.tscn" id="8_blhi5"]
+[ext_resource type="Texture2D" uid="uid://dnd3khyewb5ns" path="res://Resources/note_texture_1_hold.tres" id="9_fg1lf"]
 [ext_resource type="Script" uid="uid://c6a27qd8xkina" path="res://addons/rhythm_game_core/Scripts/Manager/rgc_track_manager.gd" id="9_io55t"]
+[ext_resource type="Script" uid="uid://dwqivicxyie81" path="res://addons/rhythm_game_core/Scripts/Utility/rgc_time_manager.gd" id="10_j3qlu"]
+[ext_resource type="Texture2D" uid="uid://cntluitiidv0d" path="res://Resources/note_texture_2.tres" id="10_lneu0"]
+[ext_resource type="Texture2D" uid="uid://d353b5aa3yeo2" path="res://Resources/note_texture_2_hold.tres" id="11_3wskg"]
 [ext_resource type="Script" uid="uid://cpcky2w8o8433" path="res://Scripts/file_dialogs.gd" id="12_ivbpn"]
+[ext_resource type="Script" uid="uid://bxu2jh7evl0xj" path="res://Scripts/audios.gd" id="14_3cjv5"]
+[ext_resource type="Script" uid="uid://dalw5oino2vea" path="res://Scripts/timers.gd" id="15_fbpj1"]
 [ext_resource type="Script" uid="uid://f5s8spvhkt4f" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_pool.gd" id="21_7eoc7"]
 [ext_resource type="AudioStream" uid="uid://cr12xup38mmbh" path="res://Audios/hitsound.wav" id="21_1763q"]
 [ext_resource type="Script" uid="uid://vjcm5nu53rop" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_position_calculator.gd" id="21_vl43l"]
@@ -361,12 +368,16 @@ note_scene_dict = Dictionary[StringName, PackedScene]({
 &"HoldNote": ExtResource("8_blhi5"),
 &"TapNote": ExtResource("7_j1m55")
 })
+note_texture_dict = Dictionary[StringName, Texture2D]({
+&"HoldNote": ExtResource("9_fg1lf"),
+&"TapNote": ExtResource("8_8n5jp")
+})
 track_index = &"1"
 bind_key_mapping = &"Key_1"
 bind_key_node = NodePath("../../../Visual/Tracks/Track1/Key1")
-judge_line_position = 630.0
-note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
-note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+judge_line_position = 500.0
+note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
 [node name="Track2" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
@@ -377,12 +388,16 @@ note_scene_dict = Dictionary[StringName, PackedScene]({
 &"HoldNote": ExtResource("8_blhi5"),
 &"TapNote": ExtResource("7_j1m55")
 })
+note_texture_dict = Dictionary[StringName, Texture2D]({
+&"HoldNote": ExtResource("11_3wskg"),
+&"TapNote": ExtResource("10_lneu0")
+})
 track_index = &"2"
 bind_key_mapping = &"Key_2"
 bind_key_node = NodePath("../../../Visual/Tracks/Track2/Key2")
-judge_line_position = 630.0
-note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
-note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+judge_line_position = 500.0
+note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
 [node name="Track3" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
@@ -393,12 +408,16 @@ note_scene_dict = Dictionary[StringName, PackedScene]({
 &"HoldNote": ExtResource("8_blhi5"),
 &"TapNote": ExtResource("7_j1m55")
 })
+note_texture_dict = Dictionary[StringName, Texture2D]({
+&"HoldNote": ExtResource("9_fg1lf"),
+&"TapNote": ExtResource("8_8n5jp")
+})
 track_index = &"3"
 bind_key_mapping = &"Key_3"
 bind_key_node = NodePath("../../../Visual/Tracks/Track3/Key3")
-judge_line_position = 630.0
-note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
-note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+judge_line_position = 500.0
+note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
 [node name="Track4" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "note_pos_calculator", "note_pool")]
@@ -409,12 +428,16 @@ note_scene_dict = Dictionary[StringName, PackedScene]({
 &"HoldNote": ExtResource("8_blhi5"),
 &"TapNote": ExtResource("7_j1m55")
 })
+note_texture_dict = Dictionary[StringName, Texture2D]({
+&"HoldNote": ExtResource("11_3wskg"),
+&"TapNote": ExtResource("10_lneu0")
+})
 track_index = &"4"
 bind_key_mapping = &"Key_4"
 bind_key_node = NodePath("../../../Visual/Tracks/Track4/Key4")
-judge_line_position = 630.0
-note_pos_calculator = NodePath("../../../../../Scripts/RGCNotePositionCalculator")
-note_pool = NodePath("../../../../../Scripts/RGCNotePool")
+judge_line_position = 500.0
+note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
+note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
 [node name="ComboLabel" type="Label" parent="TrackUI"]
@@ -569,8 +592,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "BACK_BUTTON1"
 
-[node name="DebugUI" type="Control" parent="." node_paths=PackedStringArray("tap_count", "hold_count", "total_note_count", "marvelous_count", "perfect_count", "great_count", "good_count", "miss_count", "accuracy")]
-unique_name_in_owner = true
+[node name="DebugUI" type="Control" parent="." node_paths=PackedStringArray("tap_count", "hold_count", "total_note_count", "audio_length", "marvelous_count", "perfect_count", "great_count", "good_count", "miss_count", "accuracy")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -582,6 +604,7 @@ script = ExtResource("8_45wvb")
 tap_count = NodePath("BeatmapInfo/TapCount")
 hold_count = NodePath("BeatmapInfo/HoldCount")
 total_note_count = NodePath("BeatmapInfo/TotalNoteCount")
+audio_length = NodePath("BeatmapInfo/AudioLength")
 marvelous_count = NodePath("ScoreInfo/MarvelousLabel")
 perfect_count = NodePath("ScoreInfo/PerfectLabel")
 great_count = NodePath("ScoreInfo/GreatLabel")
@@ -689,6 +712,11 @@ layout_mode = 2
 text = "Total: {0}"
 label_settings = SubResource("LabelSettings_w1bh8")
 
+[node name="AudioLength" type="Label" parent="DebugUI/BeatmapInfo"]
+layout_mode = 2
+text = "Length: {0} : {1}"
+label_settings = SubResource("LabelSettings_w1bh8")
+
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -2
 
@@ -726,19 +754,26 @@ mouse_filter = 2
 
 [node name="Scripts" type="Node" parent="."]
 
-[node name="RGCTrackManager" type="Node" parent="Scripts" node_paths=PackedStringArray("track_parent_node", "note_pos_calculator")]
+[node name="TimeManager" type="Node" parent="Scripts" node_paths=PackedStringArray("note_spawner_timer", "audio_play_timer")]
+script = ExtResource("10_j3qlu")
+note_spawner_timer = NodePath("../../Timers/NoteSpawner")
+audio_play_timer = NodePath("../../Timers/AudioPlay")
+metadata/_custom_type_script = "uid://dwqivicxyie81"
+
+[node name="TrackManager" type="Node" parent="Scripts" node_paths=PackedStringArray("track_parent_node", "note_pos_calculator", "time_manager")]
 script = ExtResource("9_io55t")
 track_parent_node = NodePath("../../TrackUI/CenterContainer/Generator/Tracks")
-note_pos_calculator = NodePath("../RGCNotePositionCalculator")
+note_pos_calculator = NodePath("../NotePositionCalculator")
+time_manager = NodePath("../TimeManager")
 metadata/_custom_type_script = "uid://c6a27qd8xkina"
 
-[node name="RGCNotePositionCalculator" type="Node" parent="Scripts"]
+[node name="NotePositionCalculator" type="Node" parent="Scripts"]
 script = ExtResource("21_vl43l")
 BASE_SPEED = 1500.0
 SPAWN_DISTANCE = 1000.0
 metadata/_custom_type_script = "uid://vjcm5nu53rop"
 
-[node name="RGCNotePool" type="Node" parent="Scripts"]
+[node name="NotePool" type="Node" parent="Scripts"]
 script = ExtResource("21_7eoc7")
 note_scene_dict = Dictionary[StringName, PackedScene]({
 &"HoldNote": ExtResource("8_blhi5"),
@@ -747,37 +782,44 @@ note_scene_dict = Dictionary[StringName, PackedScene]({
 init_note_count = 20
 metadata/_custom_type_script = "uid://f5s8spvhkt4f"
 
-[node name="Audio" type="Node" parent="."]
+[node name="Audios" type="Node" parent="." node_paths=PackedStringArray("music_player", "hit_sound_player")]
+script = ExtResource("14_3cjv5")
+music_player = NodePath("BGM")
+hit_sound_player = NodePath("HitSound")
 
-[node name="BGM" type="AudioStreamPlayer" parent="Audio"]
+[node name="BGM" type="AudioStreamPlayer" parent="Audios"]
 bus = &"BGM"
 
-[node name="HitSoundPlayer" type="AudioStreamPlayer" parent="Audio"]
+[node name="HitSound" type="AudioStreamPlayer" parent="Audios"]
 stream = ExtResource("21_1763q")
 
-[node name="Timers" type="Node" parent="."]
+[node name="Timers" type="Node" parent="." node_paths=PackedStringArray("time_manager", "note_spawner_timer", "audio_play_timer", "monitor_timer")]
+script = ExtResource("15_fbpj1")
+time_manager = NodePath("../Scripts/TimeManager")
+note_spawner_timer = NodePath("NoteSpawner")
+audio_play_timer = NodePath("AudioPlay")
+monitor_timer = NodePath("MonitorTimer")
 
-[node name="GenerateTimer" type="Timer" parent="Timers"]
-wait_time = 2.0
+[node name="NoteSpawner" type="Timer" parent="Timers"]
+wait_time = 3.0
 one_shot = true
 
-[node name="BGMTimer" type="Timer" parent="Timers"]
-wait_time = 5.0
-one_shot = true
-
-[node name="PauseWaitTimer" type="Timer" parent="Timers"]
-process_mode = 3
-wait_time = 5.0
+[node name="AudioPlay" type="Timer" parent="Timers"]
+wait_time = 3.0
 one_shot = true
 
 [node name="MonitorTimer" type="Timer" parent="Timers"]
-ignore_time_scale = true
+process_mode = 3
+wait_time = 3.0
 
-[node name="FileDialogs" type="Node" parent="." node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "osu_file_dialog", "audio_file_dialog")]
+[node name="FileDialogs" type="Node" parent="." node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "music_player", "osu_file_dialog", "audio_file_dialog")]
 script = ExtResource("12_ivbpn")
-note_pos_calculator = NodePath("../Scripts/RGCNotePositionCalculator")
-track_manager = NodePath("../Scripts/RGCTrackManager")
+beatmap_file = "uid://d10arlgch6uvm"
+audio_file = "uid://clsdo441fnhre"
+note_pos_calculator = NodePath("../Scripts/NotePositionCalculator")
+track_manager = NodePath("../Scripts/TrackManager")
 debug_ui = NodePath("../DebugUI")
+music_player = NodePath("../Audios/BGM")
 osu_file_dialog = NodePath("OSUFile")
 audio_file_dialog = NodePath("AudioFile")
 
@@ -795,5 +837,10 @@ display_mode = 1
 filters = PackedStringArray("*.mp3", "*.wav", "*.ogg")
 use_native_dialog = true
 
+[connection signal="pressed" from="DebugUI/StartButton" to="Timers" method="_on_start_button_pressed"]
 [connection signal="pressed" from="DebugUI/ImportButton" to="FileDialogs" method="_on_import_button_pressed"]
+[connection signal="timeout" from="Timers/NoteSpawner" to="Timers" method="_on_note_spawner_timer_timeout"]
+[connection signal="timeout" from="Timers/AudioPlay" to="Audios" method="_on_audio_play_timeout"]
+[connection signal="timeout" from="Timers/MonitorTimer" to="Timers" method="_on_monitor_timer_timeout"]
 [connection signal="file_selected" from="FileDialogs/OSUFile" to="FileDialogs" method="_on_osu_file_file_selected"]
+[connection signal="file_selected" from="FileDialogs/AudioFile" to="FileDialogs" method="_on_audio_file_file_selected"]

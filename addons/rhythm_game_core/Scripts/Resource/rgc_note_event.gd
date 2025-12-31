@@ -25,15 +25,26 @@ enum NoteType {
 @export var note_spawn_time: int = -1
 
 ## 音符在时间轴上的位置，单位为像素(px)，不储存在文件中，在加载时计算
-@export var note_timeline_pos: float
+@export var note_timeline_pos: float = 0.0
 
-func _init(start_time: int, end_time: int, track_index: StringName, type: NoteType, spawn_time: int, timeline_pos: float) -> void:
+## 音符长度，仅在Hold类音符使用
+@export var note_length: float = 0.0
+
+func _init(start_time: int, 
+		end_time: int, 
+		track_index: StringName, 
+		type: NoteType, 
+		spawn_time: int, 
+		timeline_pos: float, 
+		length: float
+	) -> void:
 	note_start_time = start_time
 	note_end_time = end_time
 	note_track_index = track_index
 	note_type = type
 	note_spawn_time = spawn_time
 	note_timeline_pos = timeline_pos
+	note_length = length
 
 func _to_string() -> String:
 	var note_type_name: String = NoteType.find_key(note_type)

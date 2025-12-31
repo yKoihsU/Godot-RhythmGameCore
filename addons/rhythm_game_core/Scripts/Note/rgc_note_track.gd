@@ -7,6 +7,11 @@ class_name RGCNoteTrack
 	"HoldNote" = null
 }
 
+@export var note_texture_dict: Dictionary[StringName, Texture2D] = {
+	"TapNote" = null,
+	"HoldNote" = null
+}
+
 ## 轨道唯一ID
 @export var track_index: StringName
 
@@ -27,6 +32,7 @@ class_name RGCNoteTrack
 
 ## 经过的时间
 var elasped_time: int
+var elasped_time_pos_in_timeline: float
 
 ## 现在击打的音符
 var current_hit_note: RGCNoteNode
@@ -34,14 +40,14 @@ var current_hit_note: RGCNoteNode
 ## 音符事件组
 var note_events: Array[RGCNoteEvent]
 var current_event: RGCNoteEvent
-var current_event_index: int
+var current_event_index: int = 0
 
 func _ready() -> void:
-	set_process(false)
-	set_process_unhandled_key_input(false)
+	set_active_false()
 	set_bind_key()
 
 func _process(_delta: float) -> void:
+	generate_note_node()
 	update_all_notes_position()
 	find_the_nearest_note()
 	update_current_hit_note_state()
@@ -54,6 +60,16 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	
 	if key_event.is_action_released(bind_key_mapping):
 		current_hit_note.hold_release_judge(elasped_time)
+
+## 激活轨道
+func set_active_true():
+	set_process(true)
+	set_process_unhandled_key_input(true)
+
+## 取消激活轨道
+func set_active_false():
+	set_process(false)
+	set_process_unhandled_key_input(false)
 
 ## 设置按键（如果有的话）
 func set_bind_key():
@@ -69,14 +85,19 @@ func generate_note_node():
 	if elasped_time >= current_event.note_spawn_time:
 		var note: RGCNoteNode = note_pool.get_note_from_pool(current_event.note_type)
 		note.init_note_event(current_event)
+		note.init_texture(note_texture_dict)
+		note.set_note_length()
+		note.name = "%s%d" % [RGCNoteEvent.type_enum_to_string(current_event.note_type), current_event_index]
 		add_child(note)
 		current_event_index += 1
 
 ## 更新轨道节点下所有音符节点的位置
 func update_all_notes_position():
-	var elasped_time_pos_in_timeline: float = note_pos_calculator.elasped_time_to_pos(elasped_time)
-	
 	var notes := get_children()
+	if notes.is_empty():
+		return
+	
+	elasped_time_pos_in_timeline = note_pos_calculator.elasped_time_to_pos(elasped_time)
 	for n: RGCNoteNode in notes:
 		n.update_position(judge_line_position, elasped_time_pos_in_timeline)
 
@@ -109,4 +130,6 @@ func recycle_hit_note():
 		current_hit_note
 	)
 	
+	remove_child(current_hit_note)
+	current_hit_note.reset_info()
 	current_hit_note = null
