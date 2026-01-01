@@ -38,7 +38,7 @@ func build_segments(time_datas: Array[Dictionary]):
 		seg.start_time = t_dict["time"]
 		seg.end_time = MAX_INT
 		seg.speed = t_dict["speed"]
-		seg.cumulative = 0.0
+		seg.cumulative = cumulative_position
 		seg.cumulative_end = MAX_INT
 		
 		segments.append(seg)
@@ -79,6 +79,7 @@ func build_segments(time_datas: Array[Dictionary]):
 	final_seg.cumulative_end = MAX_INT
 	
 	segments.append(final_seg)
+	current_seg = segments[0]
 
 ## 重置下标
 func reset_index():

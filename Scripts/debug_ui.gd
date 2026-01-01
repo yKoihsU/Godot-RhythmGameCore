@@ -37,6 +37,18 @@ func _ready() -> void:
 	good_count.text = GOOD_COUNT_TEXT % 0
 	miss_count.text = MISS_COUNT_TEXT % 0
 	accuracy.text = ACCURACY_TEXT % 0.0
+	
+	RGCSM.add_score.connect(_on_add_score)
+
+func _on_add_score(_rating: RGCScoreManager.Rating):
+	await get_tree().process_frame
+	
+	marvelous_count.text = MARVELOUS_COUNT_TEXT % RGCSM.play_rating_count["MARVELOUS"]
+	perfect_count.text = PERFECT_COUNT_TEXT % RGCSM.play_rating_count["PERFECT"]
+	great_count.text = GREAT_COUNT_TEXT % RGCSM.play_rating_count["GREAT"]
+	good_count.text = GOOD_COUNT_TEXT % RGCSM.play_rating_count["GOOD"]
+	miss_count.text = MISS_COUNT_TEXT % RGCSM.play_rating_count["MISS"]
+	accuracy.text = ACCURACY_TEXT % RGCSM.accuracy
 
 func set_audio_length(length: float):
 	var seconds: int = int(length) % 60

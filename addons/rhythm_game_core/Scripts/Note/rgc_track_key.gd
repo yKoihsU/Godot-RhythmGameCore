@@ -21,6 +21,10 @@ func _ready() -> void:
 func set_key(key_mapping: StringName):
 	var input_events := InputMap.action_get_events(key_mapping)
 	
+	if input_events.is_empty():
+		push_warning("输入事件为空，检查键位 %s 是否设置正确" % key_mapping)
+		return
+	
 	# 设置快捷键
 	var _shortcut := Shortcut.new()
 	_shortcut.events = input_events

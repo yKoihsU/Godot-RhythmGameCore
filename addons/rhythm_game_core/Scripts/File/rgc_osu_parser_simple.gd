@@ -23,6 +23,9 @@ func parse_timing_points(file_content: String) -> PackedStringArray:
 	for line: String in lines:
 		line = line.strip_edges()
 		
+		if line.is_empty():
+			continue
+		
 		if line == "[TimingPoints]":
 			is_timing_points_section = true
 			continue
@@ -32,9 +35,6 @@ func parse_timing_points(file_content: String) -> PackedStringArray:
 			break
 		
 		if not is_timing_points_section:
-			continue
-		
-		if line.is_empty():
 			continue
 		
 		var parts = line.split(",")
@@ -70,11 +70,12 @@ func parse_timing_points(file_content: String) -> PackedStringArray:
 			if cache_time == time:
 				# 合并到现有条目
 				results.remove_at(results.size() - 1)
-				results.append(TIMING_POINT_INFO_FORMAT % [
-					time, 
-					current_bpm, 
-					cache_speed * speed
-				])
+			
+			results.append(TIMING_POINT_INFO_FORMAT % [
+				time, 
+				current_bpm, 
+				cache_speed * speed
+			])
 	
 	if results.is_empty():
 		push_warning("解析结果为空！文件可能不完整")

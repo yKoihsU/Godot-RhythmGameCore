@@ -21,6 +21,9 @@ class_name RGCNoteTrack
 ## 按键节点
 @export var bind_key_node: RGCTrackKey
 
+## 打击特效节点
+@export var hit_effect_node: AnimatedSprite2D
+
 ## 判定线位置（[param position] 中的 [param y]）
 @export var judge_line_position: float
 
@@ -52,24 +55,27 @@ func _process(_delta: float) -> void:
 	find_the_nearest_note()
 	update_current_hit_note_state()
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	var key_event = event as InputEventKey
+func _input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
 	
-	if key_event.is_action_pressed(bind_key_mapping):
-		current_hit_note.judge_note(elasped_time)
+	if event.is_action_pressed(bind_key_mapping) and current_hit_note:
+		hit_effect_node.play(&"Hit")
+		current_hit_note.note_press_judge(elasped_time)
 	
-	if key_event.is_action_released(bind_key_mapping):
+	if event.is_action_released(bind_key_mapping) and current_hit_note:
+		hit_effect_node.play(&"Hit")
 		current_hit_note.hold_release_judge(elasped_time)
 
 ## 激活轨道
 func set_active_true():
 	set_process(true)
-	set_process_unhandled_key_input(true)
+	set_process_input(true)
 
 ## 取消激活轨道
 func set_active_false():
 	set_process(false)
-	set_process_unhandled_key_input(false)
+	set_process_input(false)
 
 ## 设置按键（如果有的话）
 func set_bind_key():

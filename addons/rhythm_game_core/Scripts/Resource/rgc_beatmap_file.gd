@@ -24,7 +24,11 @@ func count_note_count(note_type: RGCNoteEvent.NoteType) -> int:
 	if type_name == "all":
 		for k in dict_key:
 			var track_note_datas: Array = note_datas[k]
-			note_count += track_note_datas.size()
+			for d: Dictionary in track_note_datas:
+				if d["note_type"] == "tap":
+					note_count += 1
+				elif d["note_type"] == "hold":
+					note_count += 2
 		
 		return note_count
 	

@@ -8,11 +8,21 @@
 
 config_version=5
 
+[RhythmGameCore]
+
+bgm_volume=12
+hit_sound_volume=12
+hit_offset=-30
+
 [application]
 
 config/name="Rhythm Game Core"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+RGCSM="*res://addons/rhythm_game_core/Scripts/Manager/rgc_score_manager.gd"
 
 [display]
 

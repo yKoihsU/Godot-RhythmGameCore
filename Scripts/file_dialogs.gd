@@ -28,6 +28,7 @@ func _on_osu_file_file_selected(path: String) -> void:
 	if path.get_extension() == "beatmap":
 		beatmap_res = ResourceLoader.load(path, "RGCBeatmap", ResourceLoader.CACHE_MODE_REPLACE)
 		track_manager.convert_data_to_track_event(beatmap_res)
+		RGCSM.set_note_count(beatmap_res.count_note_count(RGCNoteEvent.NoteType.ALL))
 		
 		print("加载时间: %d ms" % (Time.get_ticks_msec() - start_load_time))
 	
@@ -47,6 +48,7 @@ func _on_osu_file_file_selected(path: String) -> void:
 	
 	beatmap_res = ResourceLoader.load(save_file_path, "RGCBeatmap", ResourceLoader.CACHE_MODE_REPLACE)
 	track_manager.convert_data_to_track_event(beatmap_res)
+	RGCSM.set_note_count(beatmap_res.count_note_count(RGCNoteEvent.NoteType.ALL))
 	
 	print("加载时间: %d ms" % (Time.get_ticks_msec() - start_load_time))
 	

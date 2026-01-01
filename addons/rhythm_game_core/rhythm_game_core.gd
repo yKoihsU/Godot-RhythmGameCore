@@ -13,12 +13,14 @@ func _init() -> void:
 	beatmap_loader = RGCBeatmapLoader.new()
 
 func _enable_plugin() -> void:
-	pass
+	add_autoload_singleton("RGCSM", "res://addons/rhythm_game_core/Scripts/Manager/rgc_score_manager.gd")
 
 func _disable_plugin() -> void:
-	pass
+	remove_autoload_singleton("RGCSM")
 
 func _enter_tree() -> void:
+	RGCSettings.add_project_settings()
+	
 	add_import_plugin(osu_importer)
 	ResourceSaver.add_resource_format_saver(beatmap_saver)
 	ResourceLoader.add_resource_format_loader(beatmap_loader)

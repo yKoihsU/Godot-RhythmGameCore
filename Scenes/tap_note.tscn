@@ -20,6 +20,6 @@ material = SubResource("ShaderMaterial_hefl5")
 custom_minimum_size = Vector2(80, 35)
 offset_left = 2.5
 offset_right = 82.5
-offset_bottom = 50.0
+offset_bottom = 40.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_3sobl")
