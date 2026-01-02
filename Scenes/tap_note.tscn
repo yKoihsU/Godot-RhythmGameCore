@@ -11,6 +11,7 @@ shader_parameter/pulse_intensity = 0.0
 shader_parameter/dissolve_amount = 0.0
 
 [node name="TapNote" type="Node2D" node_paths=PackedStringArray("note_texture")]
+z_index = -2
 script = ExtResource("1_l4wvw")
 note_texture = NodePath("NoteTexture")
 metadata/_custom_type_script = "uid://e37n2k3kgvjf"

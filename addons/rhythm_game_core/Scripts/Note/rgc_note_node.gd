@@ -11,7 +11,17 @@ enum States {
 	AUTO, ## 自动
 }
 
+## 音符材质
 @export var note_texture: TextureRect
+
+## 音符着色器
+@export var note_shader: Shader
+
+## 音符状态颜色组
+@export var color_group: Dictionary[StringName, Color] = {
+	"OriginColor" = Color(1.0, 1.0, 1.0, 1.0),
+	"MissingColor" = Color(0.746, 0.746, 0.746, 1.0)
+}
 
 var current_state: States = States.PRESS
 
@@ -27,6 +37,8 @@ var note_timeline_pos: float = 0.0
 
 ## 仅在hold类音符中使用
 var note_length: float = 0.0
+
+var note_material: Material
 
 ## 初始化参数
 func init_note_event(note_event: RGCNoteEvent) -> void:
@@ -45,6 +57,15 @@ func init_texture(texture_dict: Dictionary):
 		
 		RGCNoteEvent.NoteType.HOLD:
 			note_texture.texture = texture_dict["HoldNote"]
+
+## 初始化着色器
+func init_shader():
+	if not note_shader:
+		return
+	
+	note_material = ShaderMaterial.new()
+	note_material.shader = note_shader
+	note_texture.material = note_material
 
 ## 设置长度
 func set_note_length():
@@ -73,8 +94,8 @@ func update_position(judge_line_pos: float, elapsed_time_pos_in_timeline: float)
 	var pos: float = judge_line_pos - (note_timeline_pos - elapsed_time_pos_in_timeline)
 	position.y = pos
 
-## 持续状态判定，部分状态持续一段时间后转为另一个状态
-func continuous_state_judge(elasped_time: int):
+## 持续状态判定，部分状态持续一段时间后转为另一个状态(主要在hold类音符中使用)，返回结果为hold是否到达结尾
+func continuous_state_judge(elasped_time: int) -> bool:
 	match current_state:
 		States.INIT:
 			if elasped_time >= note_start_time - start_judge_range:
@@ -98,33 +119,56 @@ func continuous_state_judge(elasped_time: int):
 				var rating := RGCScoreManager.get_rating_by_offset(note_type, marvelous_offset)
 				RGCSM.add_score.emit(rating)
 				current_state = States.END
+				return true
+		
+		States.BREAK_HOLDING:
+			if elasped_time >= note_end_time:
+				var good_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GOOD)
+				var rating := RGCScoreManager.get_rating_by_offset(note_type, good_offset)
+				RGCSM.add_score.emit(rating)
+				current_state = States.END
+				return true
 		
 		States.BREAK:
+			note_material.set_shader_parameter(&"base_color", color_group["MissingColor"])
 			if elasped_time >= note_end_time + end_judge_range:
 				var miss_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.MISS)
 				var rating := RGCScoreManager.get_rating_by_offset(note_type, miss_offset)
 				RGCSM.add_score.emit(rating)
 				current_state = States.END
+				return false
+	
+	return false
 
-## 音符的开头判定，两种音符通用
-func note_press_judge(hit_time: int):
+## 音符的开头判定，两种音符通用，返回的结果为是否判定成功
+func note_press_judge(hit_time: int) -> bool:
 	# 在初始化节点时无视判定
 	if current_state == States.INIT:
-		return
+		return false
 	
 	var hit_offset: int = absi(hit_time - note_start_time + RGCScoreManager.hit_offset)
 	var rating := RGCScoreManager.get_rating_by_offset(note_type, hit_offset)
 	RGCSM.add_score.emit(rating)
+	
 	match note_type:
 		RGCNoteEvent.NoteType.TAP:
 			current_state = States.END
+			return true
 		RGCNoteEvent.NoteType.HOLD:
+			if current_state == States.BREAK:
+				note_material.set_shader_parameter(&"base_color", color_group["OriginColor"])
+				current_state = States.BREAK_HOLDING
+				return false
+			
 			current_state = States.HOLDING
+			return true
+	
+	return false
 
-## 长按音符的结尾判定部分，整体部分较为复杂包装为方法使用
-func hold_release_judge(hit_time: int):
+## 长按音符的结尾判定部分，整体部分较为复杂包装为方法使用，返回的结果为是否判定成功
+func hold_release_judge(hit_time: int) -> bool:
 	if note_type == RGCNoteEvent.NoteType.TAP:
-		return
+		return false
 	
 	match current_state:
 		States.HOLDING:
@@ -133,9 +177,10 @@ func hold_release_judge(hit_time: int):
 				var rating := RGCScoreManager.get_rating_by_offset(note_type, marvelous_offset)
 				RGCSM.add_score.emit(rating)
 				current_state = States.END
-				return
+				return true
 			
 			current_state = States.BREAK
+			return false
 		
 		States.BREAK_HOLDING:
 			if hit_time >= note_end_time - start_judge_range:
@@ -143,3 +188,6 @@ func hold_release_judge(hit_time: int):
 				var rating := RGCScoreManager.get_rating_by_offset(note_type, good_offset)
 				RGCSM.add_score.emit(rating)
 				current_state = States.END
+				return true
+	
+	return false

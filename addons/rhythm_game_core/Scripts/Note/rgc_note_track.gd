@@ -24,6 +24,9 @@ class_name RGCNoteTrack
 ## 打击特效节点
 @export var hit_effect_node: AnimatedSprite2D
 
+## 打击音效节点
+@export var hit_sound_node: AudioStreamPlayer
+
 ## 判定线位置（[param position] 中的 [param y]）
 @export var judge_line_position: float
 
@@ -55,17 +58,36 @@ func _process(_delta: float) -> void:
 	find_the_nearest_note()
 	update_current_hit_note_state()
 
-func _input(event: InputEvent) -> void:
-	if not event is InputEventKey:
-		return
-	
+func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed(bind_key_mapping) and current_hit_note:
-		hit_effect_node.play(&"Hit")
-		current_hit_note.note_press_judge(elasped_time)
+		if current_hit_note.note_press_judge(elasped_time):
+			play_hit_effect()
+			play_hit_sound()
 	
 	if event.is_action_released(bind_key_mapping) and current_hit_note:
-		hit_effect_node.play(&"Hit")
-		current_hit_note.hold_release_judge(elasped_time)
+		if current_hit_note.hold_release_judge(elasped_time):
+			play_hit_effect()
+			play_hit_sound()
+
+## 播放打击音效
+func play_hit_sound():
+	if not hit_sound_node:
+		return
+	
+	if hit_sound_node.playing:
+		hit_sound_node.stop()
+	
+	hit_sound_node.play()
+
+## 播放打击特效
+func play_hit_effect():
+	if not hit_effect_node:
+		return
+	
+	if hit_effect_node.is_playing():
+		hit_effect_node.stop()
+		
+	hit_effect_node.play(&"Hit")
 
 ## 激活轨道
 func set_active_true():
@@ -92,6 +114,7 @@ func generate_note_node():
 		var note: RGCNoteNode = note_pool.get_note_from_pool(current_event.note_type)
 		note.init_note_event(current_event)
 		note.init_texture(note_texture_dict)
+		note.init_shader()
 		note.set_note_length()
 		note.name = "%s%d" % [RGCNoteEvent.type_enum_to_string(current_event.note_type), current_event_index]
 		add_child(note)
@@ -125,7 +148,10 @@ func update_current_hit_note_state():
 	if not current_hit_note:
 		return
 	
-	current_hit_note.continuous_state_judge(elasped_time)
+	if current_hit_note.continuous_state_judge(elasped_time):
+		play_hit_effect()
+		play_hit_sound()
+	
 	if current_hit_note.current_state == RGCNoteNode.States.END:
 		recycle_hit_note()
 

@@ -21,6 +21,10 @@ func _process(delta: float) -> void:
 	update_tracks_elasped_time()
 
 func _on_start_game():
+	if note_datas.is_empty():
+		push_error("音符数据为空！")
+		return
+	
 	set_process(true)
 	set_tracks_active_true()
 

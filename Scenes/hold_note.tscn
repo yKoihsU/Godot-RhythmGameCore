@@ -11,8 +11,10 @@ shader_parameter/pulse_intensity = 0.0
 shader_parameter/dissolve_amount = 0.0
 
 [node name="HoldNote" type="Node2D" node_paths=PackedStringArray("note_texture")]
+z_index = -2
 script = ExtResource("1_euuvw")
 note_texture = NodePath("NoteTexture")
+note_shader = ExtResource("2_bho0o")
 metadata/_custom_type_script = "uid://e37n2k3kgvjf"
 
 [node name="NoteTexture" type="TextureRect" parent="."]
