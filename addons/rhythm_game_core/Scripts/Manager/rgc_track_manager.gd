@@ -80,4 +80,10 @@ func convert_data_to_track_event(beatmap_res: RGCBeatmap):
 			
 			note_events.append(event)
 		
+		note_events.sort_custom(
+			func(a: RGCNoteEvent, b: RGCNoteEvent):
+				return a.note_timeline_pos < b.note_timeline_pos
+		)
 		track_dict[key].note_events = note_events
+	
+	note_pos_calculator.reset_index()

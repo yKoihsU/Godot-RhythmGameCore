@@ -92,12 +92,12 @@ func play_hit_effect():
 ## 激活轨道
 func set_active_true():
 	set_process(true)
-	set_process_input(true)
+	set_process_unhandled_key_input(true)
 
 ## 取消激活轨道
 func set_active_false():
 	set_process(false)
-	set_process_input(false)
+	set_process_unhandled_key_input(false)
 
 ## 设置按键（如果有的话）
 func set_bind_key():
@@ -110,7 +110,7 @@ func generate_note_node():
 		return
 	
 	current_event = note_events[current_event_index]
-	if elasped_time >= current_event.note_spawn_time:
+	if elasped_time_pos_in_timeline + judge_line_position >= current_event.note_timeline_pos:
 		var note: RGCNoteNode = note_pool.get_note_from_pool(current_event.note_type)
 		note.init_note_event(current_event)
 		note.init_texture(note_texture_dict)
@@ -122,11 +122,12 @@ func generate_note_node():
 
 ## 更新轨道节点下所有音符节点的位置
 func update_all_notes_position():
+	elasped_time_pos_in_timeline = note_pos_calculator.elasped_time_to_pos(elasped_time)
+	
 	var notes := get_children()
 	if notes.is_empty():
 		return
 	
-	elasped_time_pos_in_timeline = note_pos_calculator.elasped_time_to_pos(elasped_time)
 	for n: RGCNoteNode in notes:
 		n.update_position(judge_line_position, elasped_time_pos_in_timeline)
 

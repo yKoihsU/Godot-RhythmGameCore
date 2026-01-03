@@ -935,7 +935,7 @@ bus = &"BGM"
 
 [node name="HitSound" type="AudioStreamPlayer" parent="Audios"]
 stream = ExtResource("21_1763q")
-bus = &"HitSound"
+bus = &"SFX"
 
 [node name="Timers" type="Node" parent="." node_paths=PackedStringArray("time_manager", "track_manager", "note_spawner_timer", "audio_play_timer", "monitor_timer")]
 script = ExtResource("15_fbpj1")

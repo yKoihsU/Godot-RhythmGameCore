@@ -10,8 +10,8 @@ config_version=5
 
 [RhythmGameCore]
 
-bgm_volume=12
-hit_sound_volume=12
+bgm_volume=6
+hit_sound_volume=6
 hit_offset=-30
 
 [application]

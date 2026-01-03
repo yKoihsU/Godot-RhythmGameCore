@@ -20,6 +20,7 @@ func _disable_plugin() -> void:
 
 func _enter_tree() -> void:
 	RGCSettings.add_project_settings()
+	RGCSettings.set_audio_settings()
 	
 	add_import_plugin(osu_importer)
 	ResourceSaver.add_resource_format_saver(beatmap_saver)

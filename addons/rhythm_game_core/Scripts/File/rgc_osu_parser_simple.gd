@@ -128,12 +128,9 @@ func parse_hit_objects(keys: int, file_content: String) -> PackedStringArray:
 			if parts.size() >= 6:
 				var last_part: String = parts[5]
 				# 处理可能有冒号分隔的情况
-				if ":" in last_part:
-					var sub_parts := last_part.split(":")
-					if sub_parts.size() > 0 and sub_parts[0].is_valid_int():
-						end_time = int(sub_parts[0])
-				elif last_part.is_valid_int():
-					end_time = int(last_part)
+				var sub_parts := last_part.split(":")
+				if sub_parts.size() > 5 and sub_parts[0].is_valid_int():
+					end_time = int(sub_parts[0])
 			
 			# 确定音符类型
 			if end_time > 0:
