@@ -1,4 +1,6 @@
 extends RefCounted
+## 此类属于 RhythmGameCore 插件[br]
+## 音符时间类，用于储存生成音符的信息，在 [RGCNoteTrack] 中使用
 class_name RGCNoteEvent
 
 const OUTPUT_INFO: String = "start_time:%d, end_time:%d, note_type:%s, track:%s"
@@ -21,6 +23,7 @@ enum NoteType {
 ## 音符下落使用的轨道，使用字符串进行标记
 @export var note_track_index: StringName
 
+## @deprecated: 目前方案使用时间轴位置进行推进，仅保留作为接口拓展
 ## 音符生成时间，单位为毫秒(ms)，不储存在文件中，在加载时计算
 @export var note_spawn_time: int = -1
 
@@ -50,8 +53,10 @@ func _to_string() -> String:
 	var note_type_name: String = NoteType.find_key(note_type)
 	return OUTPUT_INFO % [note_start_time, note_end_time, note_type_name, note_track_index]
 
+## 将 [enum NoteType] 转化为可读的字符串
 static func type_enum_to_string(type: NoteType) -> String:
 	return NoteType.find_key(type)
 
+## 将字符串转换为 [enum NoteType]，如果无匹配默认返回结果为 [param NoteType.TAP]
 static func string_to_type_enum(key_name: String) -> NoteType:
 	return NoteType.get(key_name.to_upper(), NoteType.TAP)

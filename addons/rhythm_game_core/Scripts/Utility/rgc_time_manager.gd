@@ -1,4 +1,6 @@
 extends Node
+## 此类属于 RhythmGameCore 插件[br]
+## 在游玩过程中的主要时间源
 class_name RGCTimeManager
 
 signal start_game()
@@ -9,7 +11,9 @@ signal start_game()
 ## 音乐播放倒计时
 @export var audio_play_timer: Timer
 
+## 开始时间，单位为毫秒
 var cache_start_time: int
+## 经过时间，单位为毫秒
 var elasped_time: int
 
 ## 音乐开始时的延迟，单位为毫秒

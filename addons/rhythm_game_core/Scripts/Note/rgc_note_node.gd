@@ -1,4 +1,6 @@
 extends Node2D
+## 此类属于 RhythmGameCore 插件[br]
+## 音符节点，此节点下可放置 [Control] 类节点实现视觉
 class_name RGCNoteNode
 
 enum States {
@@ -11,11 +13,14 @@ enum States {
 	AUTO, ## 自动
 }
 
+## 音符默认长度
+@export var note_default_length: float = 40.0
+
 ## 音符材质
-@export var note_texture: TextureRect
+@export var note_texture: TextureRect = null
 
 ## 音符着色器
-@export var note_shader: Shader
+@export var note_shader: Shader = null
 
 ## 音符状态颜色组
 @export var color_group: Dictionary[StringName, Color] = {
@@ -23,22 +28,30 @@ enum States {
 	"MissingColor" = Color(0.746, 0.746, 0.746, 1.0)
 }
 
+## 目前的音符状态
 var current_state: States = States.PRESS
 
-var note_type: RGCNoteEvent.NoteType
+## 音符类型
+var note_type: RGCNoteEvent.NoteType = RGCNoteEvent.NoteType.TAP
 
+## 音符头判定时间
 var note_start_time: int = -1
-var start_judge_range: int
+## 音符头判定偏差
+var start_judge_range: int = 0
 
+## 音符尾判定时间（在 [param Hold] 类音符中使用）
 var note_end_time: int = -1
-var end_judge_range: int
+## 音符尾判定偏差（在 [param Hold] 类音符中使用）
+var end_judge_range: int = 0
 
+## 音符在时间轴上的位置
 var note_timeline_pos: float = 0.0
 
-## 仅在hold类音符中使用
+## 仅在 [param Hold] 类音符中使用
 var note_length: float = 0.0
 
-var note_material: Material
+## 音符的 [Shader] 材质
+var note_material: Material = null
 
 ## 初始化参数
 func init_note_event(note_event: RGCNoteEvent) -> void:
@@ -82,12 +95,14 @@ func _enter_tree() -> void:
 	start_judge_range = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GREAT)
 	end_judge_range = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GOOD)
 
+## 重置音符信息
 func reset_info():
 	current_state = States.INIT
 	note_type = RGCNoteEvent.NoteType.TAP
 	note_start_time = -1
 	note_end_time = -1
 	note_timeline_pos = 0.0
+	note_texture.size.y = note_default_length
 
 ## 更新位置
 func update_position(judge_line_pos: float, elapsed_time_pos_in_timeline: float):

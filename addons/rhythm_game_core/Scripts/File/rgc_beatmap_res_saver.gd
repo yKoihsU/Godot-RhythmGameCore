@@ -1,4 +1,8 @@
 extends ResourceFormatSaver
+## 此类属于 RhythmGameCore 插件[br]
+## 谱面资源 [RGCBeatmap] 保存器[br]
+## [br]
+## 这东西总有莫名其妙的BUG，如果遇到不能保存谱面的情况重新加载工程
 class_name RGCBeatmapSaver
 
 func _get_recognized_extensions(resource: Resource) -> PackedStringArray:

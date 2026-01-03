@@ -1,11 +1,15 @@
 extends Resource
+## 此类属于 RhythmGameCore 插件[br]
+## 谱面文件，用于保存解析后的结果[br]
+## [br]
+## 注意：无法与 [param osu] 文件通用
 class_name RGCBeatmap
 
 ## 音符数据，结构为
 ##[codeblock]
 ##{ 
-##		轨道下标1 = [数据1, 数据2, 数据3...], 
-##		轨道下标2... 
+##	轨道下标1 = [数据1, 数据2, 数据3...], 
+##	轨道下标2... 
 ##}
 ##[/codeblock]
 @export var note_datas: Dictionary[StringName, Array]

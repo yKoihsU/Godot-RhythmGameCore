@@ -912,8 +912,6 @@ metadata/_custom_type_script = "uid://c6a27qd8xkina"
 
 [node name="NotePositionCalculator" type="Node" parent="Scripts"]
 script = ExtResource("21_vl43l")
-BASE_SPEED = 1500.0
-SPAWN_DISTANCE = 1000.0
 metadata/_custom_type_script = "uid://vjcm5nu53rop"
 
 [node name="NotePool" type="Node" parent="Scripts"]

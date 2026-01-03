@@ -1,14 +1,10 @@
 extends Node
+## 此类属于 RhythmGameCore 插件[br]
+## 全局辅助类，开启插件时自动加载，用于游玩分数统计
 class_name RGCScoreManager
 
+## 添加分数信号
 signal add_score(rating: Rating)
-
-var RATING_SCORE_RATIO: Dictionary = {
-	"GOOD" = 0.33,
-	"GREAT" = 0.66,
-	"PERFECT" = 1.00,
-	"MARVELOUS" = 1.01
-}
 
 enum Rating {
 	MISS, 
@@ -18,8 +14,18 @@ enum Rating {
 	MARVELOUS
 }
 
+## 评级的分数占比
+var RATING_SCORE_RATIO: Dictionary = {
+	"GOOD" = 0.33,
+	"GREAT" = 0.66,
+	"PERFECT" = 1.00,
+	"MARVELOUS" = 1.01
+}
+
+## 打击偏差，详细见 [param 项目设置/Rhythm Game Core]
 static var hit_offset: int = 0
 
+## [param Tap] 音符的评级的偏差值
 static var tap_rating_offset: Dictionary = {
 	"MISS" = 999,
 	"GOOD" = 100,
@@ -28,6 +34,7 @@ static var tap_rating_offset: Dictionary = {
 	"MARVELOUS" = 25
 }
 
+## [param Hold] 音符的评级的偏差值
 static var hold_rating_offset: Dictionary = {
 	"MISS" = 999,
 	"GOOD" = 120,
@@ -36,12 +43,17 @@ static var hold_rating_offset: Dictionary = {
 	"MARVELOUS" = 35
 }
 
+## 游玩分数（未使用）
 var play_score: int
+## 连击数
 var combo_count: int = 0
+## 最大连击数
 var max_combo_count: int = 0
+## 准确率
 var accuracy: float = 0.0
+## 总计音符数量
 var total_note_count: int = 0
-
+## 游玩中每个评级的数量
 var play_rating_count: Dictionary[StringName, int] = {
 	"MISS" = 0,
 	"GOOD" = 0,
@@ -76,9 +88,11 @@ func _on_add_score(rating: Rating):
 	max_combo_count = maxi(combo_count, max_combo_count)
 	calculate_accuracy()
 
+## 设置音符总数
 func set_note_count(value: int):
 	total_note_count = value
 
+## 计算准确率
 func calculate_accuracy():
 	var good_score: float = play_rating_count["GOOD"] * RATING_SCORE_RATIO["GOOD"]
 	var great_score: float = play_rating_count["GREAT"] * RATING_SCORE_RATIO["GREAT"]

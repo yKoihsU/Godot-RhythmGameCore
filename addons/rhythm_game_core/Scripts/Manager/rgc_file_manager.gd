@@ -1,6 +1,9 @@
 extends Node
+## 此类属于 RhythmGameCore 插件[br]
+## 全局辅助类，用于文件管理
 class_name RGCFileManager
 
+## 保存解析文件
 static func save_parse_file(
 	save_file_path: String, 
 	timing_points: PackedStringArray, 
@@ -20,6 +23,7 @@ static func save_parse_file(
 	
 	push_error("保存失败！错误码：%d" % result)
 
+## 构建时间切片组
 static func build_time_segments(pos_calculator: RGCNotePositionCalculator, beatmap_file: String):
 	var file := FileAccess.open(beatmap_file, FileAccess.READ)
 	var parser: RGCParserOM = RGCParserOM.new()
@@ -27,6 +31,7 @@ static func build_time_segments(pos_calculator: RGCNotePositionCalculator, beatm
 	
 	pos_calculator.build_segments(time_datas)
 
+## 构建音符信息
 static func build_note_objects(pos_calculator: RGCNotePositionCalculator, beatmap_file: String) -> Dictionary:
 	if pos_calculator.segments.is_empty():
 		push_error("请先使用 build_time_segments() 构建时间分片")
@@ -42,11 +47,18 @@ static func build_note_objects(pos_calculator: RGCNotePositionCalculator, beatma
 		
 		var start_time: int = n_dict["start_time"]
 		var end_time: int = n_dict["end_time"]
+		
 		var note_type := RGCNoteEvent.string_to_type_enum(n_dict["note_type"])
 		var track := StringName(n_dict["track"])
 		
 		var timeline_pos: float = pos_calculator.scroll_to_pos(start_time)
 		var spawn_time: int = pos_calculator.scroll_to_time(timeline_pos, true)
+		
+		var note_length: float = 0.0
+		var timeline_pos_start: float = pos_calculator.scroll_to_pos(start_time)
+		if note_type == RGCNoteEvent.NoteType.HOLD:
+			var timeline_pos_end: float = pos_calculator.scroll_to_pos(end_time)
+			note_length = timeline_pos_end - timeline_pos_start
 		
 		var note_event := RGCNoteEvent.new(
 			start_time,
@@ -55,7 +67,7 @@ static func build_note_objects(pos_calculator: RGCNotePositionCalculator, beatma
 			note_type,
 			spawn_time,
 			timeline_pos, 
-			0.0
+			note_length
 		)
 		
 		if not results.has(track):

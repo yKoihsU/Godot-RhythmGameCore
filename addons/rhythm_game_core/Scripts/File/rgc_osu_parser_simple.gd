@@ -1,10 +1,12 @@
 extends RefCounted
+## 此类属于 RhythmGameCore 插件[br]
+## 辅助类，用于解析 osu 谱面中的 [param TimingPoints] 和 [param HitObjects]
 class_name RGCParserOM
 
 const HIT_OBJECT_INFO_FORMAT: String = "{\"start_time\":%d, \"end_time\":%d, \"note_type\":\"%s\", \"track\":%d}"
 const TIMING_POINT_INFO_FORMAT: String = "{\"time\":%d, \"bpm\":%.2f, \"speed\":%.2f}"
 
-## 解析谱面元数据
+## 解析谱面元数据（不使用）
 func parse_metadata():
 	pass
 

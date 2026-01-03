@@ -1,14 +1,20 @@
 extends Node
+## 此类属于 RhythmGameCore 插件[br]
+## 轨道管理器，主要用于轨道的数据管理和游玩周期管理
 class_name RGCTrackManager
 
 ## 所有轨道的父节点
 @export var track_parent_node: Node
 
+## 音符位置计算器
 @export var note_pos_calculator: RGCNotePositionCalculator
 
+## 时间管理器
 @export var time_manager: RGCTimeManager
 
+## 音符数据
 var note_datas: Dictionary[StringName, Array]
+## 轨道节点
 var track_nodes: Array[Node]
 
 func _ready() -> void:

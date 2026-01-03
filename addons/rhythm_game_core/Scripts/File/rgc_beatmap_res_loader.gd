@@ -1,4 +1,8 @@
 extends ResourceFormatLoader
+## 此类属于 RhythmGameCore 插件[br]
+## 谱面资源 [RGCBeatmap] 解析器[br]
+## [br]
+## 这东西总有莫名其妙的BUG，如果遇到不能加载谱面的情况重新加载工程
 class_name RGCBeatmapLoader
 
 func _handles_type(type: StringName) -> bool:

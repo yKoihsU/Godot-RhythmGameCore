@@ -1,27 +1,29 @@
 extends Node
+## 此类属于 RhythmGameCore 插件[br]
+## 音符位置计算器，支持非无限 BPM 变速谱面
 class_name RGCNotePositionCalculator
 
 const MAX_INT: int = 2147483647
 
 ## 单位为 像素/秒 (pixel/s)
-@export var BASE_SPEED: float
+@export var BASE_SPEED: float = 1500.0
 
 ## 音符生成的位置到视窗底部距离（视窗高度为720px，放大缩小视窗都不影响）
-@export var SPAWN_DISTANCE: float
+@export var SPAWN_DISTANCE: float = 1000.0
 
-var segments: Array[Segment]
-var current_seg: Segment
+var segments: Array[Segment] = []
+var current_seg: Segment = null
 
-var seg_pos_index: int
-var seg_time_index: int
-var seg_elasped_time_index: int
+var seg_pos_index: int = 0
+var seg_time_index: int = 0
+var seg_elasped_time_index: int = 0
 
 class Segment:
-	var start_time: int ## 单位为毫秒(ms)
-	var end_time: int ## 单位为毫秒(ms)
-	var speed: float
-	var cumulative: float
-	var cumulative_end: float
+	var start_time: int = 0 ## 单位为毫秒(ms) 
+	var end_time: int = 0 ## 单位为毫秒(ms)
+	var speed: float = 0.0
+	var cumulative: float = 0.0
+	var cumulative_end: float = 0.0
 	
 	func calculate_cumulative_end(base_speed: float) -> float:
 		cumulative_end = cumulative + base_speed * speed * (end_time - start_time) / 1000.0

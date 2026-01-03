@@ -1,4 +1,6 @@
 extends Button
+## 此类属于 RhythmGameCore 插件[br]
+## 轨道按键，仅有视觉效果，不做音符判定处理
 class_name RGCTrackKey
 
 ## 未按下按键时的按键材质

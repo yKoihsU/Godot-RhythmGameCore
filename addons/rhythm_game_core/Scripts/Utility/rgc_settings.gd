@@ -1,4 +1,6 @@
 extends Node
+## 此类属于 RhythmGameCore 插件[br]
+## 在项目设置中添加插件相关设置
 class_name RGCSettings
 
 const BGM_VOLUME_INFO: Dictionary = {
@@ -43,6 +45,7 @@ const HIT_SOUND_BUS_INFO: Dictionary = {
 	"hint_string": "SFX"
 }
 
+## 初始化一个设置
 static func init_setting(setting_name: String, value, info_dict: Dictionary):
 	if ProjectSettings.has_setting(setting_name):
 		ProjectSettings.set_initial_value(setting_name, value)
@@ -54,6 +57,7 @@ static func init_setting(setting_name: String, value, info_dict: Dictionary):
 	ProjectSettings.set_as_basic(setting_name, true)
 	ProjectSettings.set_initial_value(setting_name, value)
 
+## 设置音符相关
 static func set_audio_settings():
 	var bgm_bus_name: StringName = ProjectSettings.get_setting("RhythmGameCore/bgm_bus_name", "")
 	var sfx_bus_name: StringName = ProjectSettings.get_setting("RhythmGameCore/hit_sound_bus_name", "")
@@ -76,6 +80,7 @@ static func set_audio_settings():
 		var sfx_volume := ProjectSettings.get_setting("RhythmGameCore/hit_sound_volume", 12)
 		AudioServer.set_bus_volume_linear(sfx_bus_id, float(sfx_volume) / 100.0)
 
+## 在项目设置中添加自定义设置
 static func add_project_settings():
 	init_setting("RhythmGameCore/bgm_volume", 20, BGM_VOLUME_INFO)
 	init_setting("RhythmGameCore/hit_sound_volume", 20, HIT_SOUND_VOLUME_INFO)

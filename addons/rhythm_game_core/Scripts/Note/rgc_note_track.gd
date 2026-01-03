@@ -1,4 +1,8 @@
 extends Control
+## 此类属于 RhythmGameCore 插件[br]
+## 音符轨道类，用于生成音符[br]
+## [br]
+## 注意：不要添加任何子节点，否则会报错
 class_name RGCNoteTrack
 
 ## 音符场景集合
@@ -13,39 +17,43 @@ class_name RGCNoteTrack
 }
 
 ## 轨道唯一ID
-@export var track_index: StringName
+@export var track_index: StringName = &""
 
 ## 轨道绑定的键位映射（项目设置/输入映射 中的按键映射名称）
-@export var bind_key_mapping: StringName
+@export var bind_key_mapping: StringName = &""
 
 ## 按键节点
-@export var bind_key_node: RGCTrackKey
+@export var bind_key_node: RGCTrackKey = null
 
 ## 打击特效节点
-@export var hit_effect_node: AnimatedSprite2D
+@export var hit_effect_node: AnimatedSprite2D = null
 
 ## 打击音效节点
-@export var hit_sound_node: AudioStreamPlayer
+@export var hit_sound_node: AudioStreamPlayer = null
 
 ## 判定线位置（[param position] 中的 [param y]）
-@export var judge_line_position: float
+@export var judge_line_position: float = 0.0
 
 ## 音符位置计算器
-@export var note_pos_calculator: RGCNotePositionCalculator
+@export var note_pos_calculator: RGCNotePositionCalculator = null
 
 ## 音符对象池
-@export var note_pool: RGCNotePool
+@export var note_pool: RGCNotePool = null
 
 ## 经过的时间
-var elasped_time: int
-var elasped_time_pos_in_timeline: float
+var elasped_time: int = 0
+var elasped_time_pos_in_timeline: float = 0.0
 
 ## 现在击打的音符
-var current_hit_note: RGCNoteNode
+var current_hit_note: RGCNoteNode = null
 
 ## 音符事件组
-var note_events: Array[RGCNoteEvent]
-var current_event: RGCNoteEvent
+var note_events: Array[RGCNoteEvent] = []
+
+## 目前的音符事件
+var current_event: RGCNoteEvent = null
+
+## 目前音符事件在 [member note_events] 中的 index
 var current_event_index: int = 0
 
 func _ready() -> void:
@@ -110,7 +118,8 @@ func generate_note_node():
 		return
 	
 	current_event = note_events[current_event_index]
-	if elasped_time_pos_in_timeline + judge_line_position >= current_event.note_timeline_pos:
+	# 音符生成时间不单调递增(即使排序后也存在问题)，使用时间轴位置进行推进
+	if elasped_time_pos_in_timeline + note_pos_calculator.SPAWN_DISTANCE >= current_event.note_timeline_pos:
 		var note: RGCNoteNode = note_pool.get_note_from_pool(current_event.note_type)
 		note.init_note_event(current_event)
 		note.init_texture(note_texture_dict)
