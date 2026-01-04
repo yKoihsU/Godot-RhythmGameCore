@@ -25,6 +25,7 @@ func _on_osu_file_file_selected(path: String) -> void:
 	var start_load_time: int = Time.get_ticks_msec()
 	var beatmap_res: RGCBeatmap
 	
+	# 加载已经过转换的文件
 	if path.get_extension() == "beatmap":
 		beatmap_res = ResourceLoader.load(path, "RGCBeatmap", ResourceLoader.CACHE_MODE_REPLACE)
 		track_manager.convert_data_to_track_event(beatmap_res)
@@ -42,10 +43,12 @@ func _on_osu_file_file_selected(path: String) -> void:
 	var timing_points: PackedStringArray = parser.parse_timing_points(file.get_as_text())
 	var hit_objects: PackedStringArray = parser.parse_hit_objects(4, file.get_as_text())
 	
+	# 保存转换文件
 	var file_name := path.get_file().get_basename()
 	var save_file_path: String = path.get_base_dir().path_join(file_name) + ".beatmap"
 	RGCFileManager.save_parse_file(save_file_path, timing_points, hit_objects)
 	
+	# 加载转换文件
 	beatmap_res = ResourceLoader.load(save_file_path, "RGCBeatmap", ResourceLoader.CACHE_MODE_REPLACE)
 	track_manager.convert_data_to_track_event(beatmap_res)
 	RGCSM.set_note_count(beatmap_res.count_note_count(RGCNoteEvent.NoteType.ALL))

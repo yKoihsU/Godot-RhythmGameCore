@@ -9,7 +9,7 @@ func _get_recognized_extensions(resource: Resource) -> PackedStringArray:
 	return ["beatmap"]
 
 func _recognize(resource: Resource) -> bool:
-	return true
+	return resource is RGCBeatmap
 
 func _save(resource: Resource, path: String, flags: int) -> Error:
 	var beatmap: RGCBeatmap = resource

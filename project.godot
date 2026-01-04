@@ -17,6 +17,7 @@ hit_offset=-30
 [application]
 
 config/name="Rhythm Game Core"
+run/main_scene="uid://d3tx72n68gk20"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
