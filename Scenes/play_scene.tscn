@@ -957,8 +957,6 @@ wait_time = 3.0
 
 [node name="FileDialogs" type="Node" parent="." node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "music_player", "osu_file_dialog", "audio_file_dialog")]
 script = ExtResource("12_ivbpn")
-beatmap_file = "uid://d10arlgch6uvm"
-audio_file = "uid://clsdo441fnhre"
 note_pos_calculator = NodePath("../Scripts/NotePositionCalculator")
 track_manager = NodePath("../Scripts/TrackManager")
 debug_ui = NodePath("../DebugUI")

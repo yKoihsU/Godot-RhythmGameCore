@@ -1,7 +1,6 @@
 extends Node
 
 @export_group("Files")
-@export_file("*.osu", "*.beatmap") var beatmap_file: String
 @export_file("*.mp3", "*.wav", "*.ogg") var audio_file: String
 
 @export_group("Nodes")
@@ -16,7 +15,8 @@ extends Node
 @export var audio_file_dialog: FileDialog
 
 func _ready() -> void:
-	_on_audio_file_file_selected(audio_file)
+	if not audio_file.is_empty():
+		_on_audio_file_file_selected(audio_file)
 
 func _on_import_button_pressed() -> void:
 	osu_file_dialog.popup_centered()
