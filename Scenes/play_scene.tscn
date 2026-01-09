@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://d3tx72n68gk20"]
+[gd_scene load_steps=58 format=3 uid="uid://d3tx72n68gk20"]
 
 [ext_resource type="StyleBox" uid="uid://c4yecl1ok57op" path="res://Resources/track_texture.tres" id="1_5lpdq"]
 [ext_resource type="Script" uid="uid://bangyu7jnpwjj" path="res://Scripts/track_ui.gd" id="1_s0476"]
@@ -18,7 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://d353b5aa3yeo2" path="res://Resources/note_texture_2_hold.tres" id="11_3wskg"]
 [ext_resource type="Script" uid="uid://cpcky2w8o8433" path="res://Scripts/file_dialogs.gd" id="12_ivbpn"]
 [ext_resource type="Texture2D" uid="uid://cgtfml7owp2de" path="res://Images/hit_effect.png" id="13_1mfr0"]
+[ext_resource type="Script" uid="uid://bfwamh7ef0yvw" path="res://Scripts/pause_ui.gd" id="14_1mfr0"]
 [ext_resource type="Script" uid="uid://bxu2jh7evl0xj" path="res://Scripts/audios.gd" id="14_3cjv5"]
+[ext_resource type="Script" uid="uid://cdjanqlhci0vp" path="res://Scripts/countdown_ui.gd" id="15_cqpud"]
 [ext_resource type="Script" uid="uid://dalw5oino2vea" path="res://Scripts/timers.gd" id="15_fbpj1"]
 [ext_resource type="Script" uid="uid://f5s8spvhkt4f" path="res://addons/rhythm_game_core/Scripts/Note/rgc_note_pool.gd" id="21_7eoc7"]
 [ext_resource type="AudioStream" uid="uid://cr12xup38mmbh" path="res://Audios/hitsound.wav" id="21_1763q"]
@@ -157,24 +159,15 @@ font_size = 25
 [sub_resource type="LabelSettings" id="LabelSettings_d3awe"]
 font_size = 25
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kn3l"]
-bg_color = Color(0.6, 0.6, 0.6, 0.22352941)
-border_width_left = 2
-border_width_top = 2
-border_color = Color(0.54656905, 0.5465691, 0.5465688, 1)
-border_blend = true
-corner_radius_top_left = 16
-corner_detail = 1
-
-[sub_resource type="LabelSettings" id="LabelSettings_8n5jp"]
-font_size = 20
-
 [sub_resource type="FontVariation" id="FontVariation_2kn3l"]
 spacing_glyph = 10
 
 [sub_resource type="LabelSettings" id="LabelSettings_2kn3l"]
 font = SubResource("FontVariation_2kn3l")
 font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_1mfr0"]
+font_size = 100
 
 [sub_resource type="LabelSettings" id="LabelSettings_yglu3"]
 font_size = 30
@@ -618,53 +611,7 @@ label_settings = SubResource("LabelSettings_d3awe")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PerformanceMonitor" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -150.0
-offset_top = -70.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="Background" type="Panel" parent="PerformanceMonitor"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2kn3l")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PerformanceMonitor"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="FpsCounter" type="Label" parent="PerformanceMonitor/VBoxContainer"]
-layout_mode = 2
-text = "0 / 0 FPS"
-label_settings = SubResource("LabelSettings_8n5jp")
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="ProcessTimeCounter" type="Label" parent="PerformanceMonitor/VBoxContainer"]
-layout_mode = 2
-text = "0.0 ms"
-label_settings = SubResource("LabelSettings_8n5jp")
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="PauseUI" type="Control" parent="."]
+[node name="PauseUI" type="Control" parent="." node_paths=PackedStringArray("countdown_ui", "time_manager", "continue_timer")]
 process_mode = 2
 visible = false
 z_index = 2
@@ -675,6 +622,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("14_1mfr0")
+countdown_ui = NodePath("../CountdownUI")
+time_manager = NodePath("../Scripts/TimeManager")
+continue_timer = NodePath("../Timers/ContinueTimer")
 
 [node name="DimBackground" type="ColorRect" parent="PauseUI"]
 self_modulate = Color(1, 1, 1, 0.431373)
@@ -703,7 +654,7 @@ theme_override_constants/separation = 50
 
 [node name="Label" type="Label" parent="PauseUI/VBoxContainer"]
 layout_mode = 2
-text = "GAME_PAUSE"
+text = "游戏暂停"
 label_settings = SubResource("LabelSettings_2kn3l")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -721,19 +672,53 @@ theme_override_constants/separation = 40
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "CONTINUE_BUTTON"
+text = "继续"
 
-[node name="RetryButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="ReloadButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "RETRY_BUTTON1"
+text = "重新加载场景"
 
-[node name="BackButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "BACK_BUTTON1"
+[node name="CountdownUI" type="Control" parent="." node_paths=PackedStringArray("text_label", "timers_node")]
+process_mode = 2
+visible = false
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_cqpud")
+text_label = NodePath("Label")
+timers_node = NodePath("../Timers")
+
+[node name="Background" type="Panel" parent="CountdownUI"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CountdownUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -68.5
+offset_right = 28.5
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+label_settings = SubResource("LabelSettings_1mfr0")
 
 [node name="DebugUI" type="Control" parent="." node_paths=PackedStringArray("tap_count", "hold_count", "total_note_count", "audio_length", "marvelous_count", "perfect_count", "great_count", "good_count", "miss_count", "accuracy")]
 layout_mode = 1
@@ -935,13 +920,15 @@ bus = &"BGM"
 stream = ExtResource("21_1763q")
 bus = &"SFX"
 
-[node name="Timers" type="Node" parent="." node_paths=PackedStringArray("time_manager", "track_manager", "note_spawner_timer", "audio_play_timer", "monitor_timer")]
+[node name="Timers" type="Node" parent="." node_paths=PackedStringArray("countdown_ui", "time_manager", "track_manager", "note_spawner_timer", "audio_play_timer", "continue_timer")]
 script = ExtResource("15_fbpj1")
+countdown = 3
+countdown_ui = NodePath("../CountdownUI")
 time_manager = NodePath("../Scripts/TimeManager")
 track_manager = NodePath("../Scripts/TrackManager")
 note_spawner_timer = NodePath("NoteSpawner")
 audio_play_timer = NodePath("AudioPlay")
-monitor_timer = NodePath("MonitorTimer")
+continue_timer = NodePath("ContinueTimer")
 
 [node name="NoteSpawner" type="Timer" parent="Timers"]
 wait_time = 3.0
@@ -951,9 +938,8 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
-[node name="MonitorTimer" type="Timer" parent="Timers"]
-process_mode = 3
-wait_time = 3.0
+[node name="ContinueTimer" type="Timer" parent="Timers"]
+process_mode = 2
 
 [node name="FileDialogs" type="Node" parent="." node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "music_player", "osu_file_dialog", "audio_file_dialog")]
 script = ExtResource("12_ivbpn")
@@ -978,10 +964,13 @@ display_mode = 1
 filters = PackedStringArray("*.mp3", "*.wav", "*.ogg")
 use_native_dialog = true
 
+[connection signal="pressed" from="OtherUI/PauseButton" to="PauseUI" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="PauseUI/VBoxContainer/MarginContainer/VBoxContainer/ContinueButton" to="PauseUI" method="_on_continue_button_pressed"]
+[connection signal="pressed" from="PauseUI/VBoxContainer/MarginContainer/VBoxContainer/ReloadButton" to="PauseUI" method="_on_reload_button_pressed"]
 [connection signal="pressed" from="DebugUI/StartButton" to="Timers" method="_on_start_button_pressed"]
 [connection signal="pressed" from="DebugUI/ImportButton" to="FileDialogs" method="_on_import_button_pressed"]
 [connection signal="timeout" from="Timers/NoteSpawner" to="Timers" method="_on_note_spawner_timer_timeout"]
 [connection signal="timeout" from="Timers/AudioPlay" to="Audios" method="_on_audio_play_timeout"]
-[connection signal="timeout" from="Timers/MonitorTimer" to="Timers" method="_on_monitor_timer_timeout"]
+[connection signal="timeout" from="Timers/ContinueTimer" to="Timers" method="_on_continue_timer_timeout"]
 [connection signal="file_selected" from="FileDialogs/OSUFile" to="FileDialogs" method="_on_osu_file_file_selected"]
 [connection signal="file_selected" from="FileDialogs/AudioFile" to="FileDialogs" method="_on_audio_file_file_selected"]
