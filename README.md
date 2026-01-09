@@ -35,6 +35,8 @@ res://addons/rhythm_game_core/
 
 2. 打开 Godot 编辑器：**Project → Project Settings → Plugins**，启用 `Rhythm Game Core` 插件。
 
+3. 在 **Project → Project Settings → Rhythm Game Core** 中调整插件设置以方便测试。
+
 ---
 
 ## 快速开始
@@ -140,6 +142,9 @@ func load_beatmap(path: String) -> void:
 
 * **Q：是否支持其它键位谱面模式（如 5K、9K）？**
   A：1K-9K 谱面都支持，但需要在导入选项卡中修改 Keys 重新再导入一次。（提供演示场景仅支持4K）
+
+* **Q：导入osu文件时为什么控制台报错？**
+  A：可能是因为导入时没有生成uid文件，资源加载器无法识别格式，重新打开工程即可完成导入。
 
 * **Q：变速谱面中支持的BPM范围？**
   A：BPM 不可为负数、0、无穷。RGC 使用时间轴（timeline）作为播放推进源，如果计算位置时出现 inf，会导致不可预料的结果。 
