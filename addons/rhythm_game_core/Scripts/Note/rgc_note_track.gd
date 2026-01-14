@@ -63,7 +63,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	generate_note_node()
 	update_all_notes_position()
-	find_the_nearest_note(true)
+	find_the_nearest_note(false)
 	update_current_hit_note_state()
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -147,7 +147,7 @@ func find_the_nearest_note(is_order: bool):
 	if notes.is_empty():
 		return
 	
-	# 仅在非顺序音符时间排列中使用
+	# 如果音符时间非顺序排列中可传入 false 排序输出
 	if not is_order:
 		notes.sort_custom(
 			func(a: RGCNoteNode, b: RGCNoteNode):
