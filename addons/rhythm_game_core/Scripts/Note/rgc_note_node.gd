@@ -19,7 +19,7 @@ enum States {
 ## 音符材质
 @export var note_texture: TextureRect = null
 
-## 音符着色器
+## 音符着色器（Tap 类音符不需要设置此项）
 @export var note_shader: Shader = null
 
 ## 音符状态颜色组

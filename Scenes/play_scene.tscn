@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://r12p73mxl8tp" path="res://Scenes/hold_note.tscn" id="8_blhi5"]
 [ext_resource type="Texture2D" uid="uid://dnd3khyewb5ns" path="res://Resources/note_texture_1_hold.tres" id="9_fg1lf"]
 [ext_resource type="Script" uid="uid://c6a27qd8xkina" path="res://addons/rhythm_game_core/Scripts/Manager/rgc_track_manager.gd" id="9_io55t"]
-[ext_resource type="Script" uid="uid://dwqivicxyie81" path="res://addons/rhythm_game_core/Scripts/Utility/rgc_time_manager.gd" id="10_j3qlu"]
+[ext_resource type="Script" uid="uid://dwqivicxyie81" path="res://addons/rhythm_game_core/Scripts/Manager/rgc_time_manager.gd" id="10_j3qlu"]
 [ext_resource type="Texture2D" uid="uid://cntluitiidv0d" path="res://Resources/note_texture_2.tres" id="10_lneu0"]
 [ext_resource type="Texture2D" uid="uid://d353b5aa3yeo2" path="res://Resources/note_texture_2_hold.tres" id="11_3wskg"]
 [ext_resource type="Script" uid="uid://cpcky2w8o8433" path="res://Scripts/file_dialogs.gd" id="12_ivbpn"]

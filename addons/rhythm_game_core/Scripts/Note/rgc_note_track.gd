@@ -1,6 +1,6 @@
 extends Control
 ## 此类属于 RhythmGameCore 插件[br]
-## 音符轨道类，用于生成音符[br]
+## 音符轨道类，用于生成音符，无视觉效果[br]
 ## [br]
 ## 注意：不要添加任何子节点，否则会报错
 class_name RGCNoteTrack
@@ -63,7 +63,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	generate_note_node()
 	update_all_notes_position()
-	find_the_nearest_note()
+	find_the_nearest_note(true)
 	update_current_hit_note_state()
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -118,6 +118,7 @@ func generate_note_node():
 		return
 	
 	current_event = note_events[current_event_index]
+	
 	# 音符生成时间不单调递增(即使排序后也存在问题)，使用时间轴位置进行推进
 	if elasped_time_pos_in_timeline + note_pos_calculator.SPAWN_DISTANCE >= current_event.note_timeline_pos:
 		var note: RGCNoteNode = note_pool.get_note_from_pool(current_event.note_type)
@@ -141,15 +142,17 @@ func update_all_notes_position():
 		n.update_position(judge_line_position, elasped_time_pos_in_timeline)
 
 ## 寻找距离经过时间最近的音符
-func find_the_nearest_note():
+func find_the_nearest_note(is_order: bool):
 	var notes := get_children()
 	if notes.is_empty():
 		return
 	
-	notes.sort_custom(
-		func(a: RGCNoteNode, b: RGCNoteNode):
-			return a.note_start_time < b.note_start_time
-	)
+	# 仅在非顺序音符时间排列中使用
+	if not is_order:
+		notes.sort_custom(
+			func(a: RGCNoteNode, b: RGCNoteNode):
+				return a.note_start_time < b.note_start_time
+		)
 	
 	current_hit_note = notes[0]
 

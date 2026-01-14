@@ -68,7 +68,7 @@ static func set_audio_settings():
 			push_error("找不到对应名称的 BGM 音频总线！")
 			return
 		
-		var bgm_volume := ProjectSettings.get_setting("RhythmGameCore/bgm_volume", 12)
+		var bgm_volume: int = ProjectSettings.get_setting("RhythmGameCore/bgm_volume", 12)
 		AudioServer.set_bus_volume_linear(bgm_bus_id, float(bgm_volume) / 100.0)
 	
 	if not sfx_bus_name.is_empty():
@@ -77,7 +77,7 @@ static func set_audio_settings():
 			push_error("找不到对应名称的 SFX 音频总线！")
 			return
 		
-		var sfx_volume := ProjectSettings.get_setting("RhythmGameCore/hit_sound_volume", 12)
+		var sfx_volume: int = ProjectSettings.get_setting("RhythmGameCore/hit_sound_volume", 12)
 		AudioServer.set_bus_volume_linear(sfx_bus_id, float(sfx_volume) / 100.0)
 
 ## 在项目设置中添加自定义设置

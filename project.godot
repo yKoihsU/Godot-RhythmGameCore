@@ -25,6 +25,10 @@ config/icon="res://icon.svg"
 
 RGCSM="*res://addons/rhythm_game_core/Scripts/Manager/rgc_score_manager.gd"
 
+[debug]
+
+gdscript/warnings/exclude_addons=false
+
 [display]
 
 window/size/viewport_width=1280
