@@ -6,8 +6,16 @@ class_name RGCParserOM
 const HIT_OBJECT_INFO_FORMAT: String = "{\"start_time\":%d, \"end_time\":%d, \"note_type\":\"%s\", \"track\":%d}"
 const TIMING_POINT_INFO_FORMAT: String = "{\"time\":%d, \"bpm\":%.2f, \"speed\":%.2f}"
 
-## 解析谱面元数据（不使用）
+## 解析osu谱面中的 [param General] 部分（不使用）
+func parse_general():
+	pass
+
+## 解析osu谱面中的 [param Metadata] 部分（不使用）
 func parse_metadata():
+	pass
+
+## 解析osu谱面中的 [param Difficulty] 部分（不使用）
+func parse_difficulty():
 	pass
 
 ## 解析osu谱面中的 [param TimingPoints] 部分
