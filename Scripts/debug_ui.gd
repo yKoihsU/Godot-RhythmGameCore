@@ -13,6 +13,8 @@ const GOOD_COUNT_TEXT: String = "GODD: %d"
 const MISS_COUNT_TEXT: String = "MISS: %d"
 const ACCURACY_TEXT: String = "ACC: %.2f %%"
 
+@export var start_button: Button
+
 @export var tap_count: Label
 @export var hold_count: Label
 @export var total_note_count: Label

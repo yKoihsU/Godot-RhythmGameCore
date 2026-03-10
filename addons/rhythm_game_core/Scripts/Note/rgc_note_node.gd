@@ -63,7 +63,7 @@ func init_note_event(note_event: RGCNoteEvent) -> void:
 	note_length = note_event.note_length
 
 ## 初始化材质
-func init_texture(texture_dict: Dictionary):
+func init_texture(texture_dict: Dictionary) -> void:
 	match note_type:
 		RGCNoteEvent.NoteType.TAP:
 			note_texture.texture = texture_dict["TapNote"]
@@ -72,7 +72,7 @@ func init_texture(texture_dict: Dictionary):
 			note_texture.texture = texture_dict["HoldNote"]
 
 ## 初始化着色器
-func init_shader():
+func init_shader() -> void:
 	if not note_shader:
 		return
 	
@@ -81,7 +81,7 @@ func init_shader():
 	note_texture.material = note_material
 
 ## 设置长度
-func set_note_length():
+func set_note_length() -> void:
 	if is_zero_approx(note_length):
 		return
 	
@@ -96,7 +96,7 @@ func _enter_tree() -> void:
 	end_judge_range = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GOOD)
 
 ## 重置音符信息
-func reset_info():
+func reset_info() -> void:
 	current_state = States.INIT
 	note_type = RGCNoteEvent.NoteType.TAP
 	note_start_time = -1
@@ -105,7 +105,7 @@ func reset_info():
 	note_texture.size.y = note_default_length
 
 ## 更新位置
-func update_position(judge_line_pos: float, elapsed_time_pos_in_timeline: float):
+func update_position(judge_line_pos: float, elapsed_time_pos_in_timeline: float) -> void:
 	var pos: float = judge_line_pos - (note_timeline_pos - elapsed_time_pos_in_timeline)
 	position.y = pos
 
@@ -118,9 +118,7 @@ func continuous_state_judge(elasped_time: int) -> bool:
 		
 		States.PRESS:
 			if elasped_time >= note_start_time + end_judge_range:
-				var miss_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.MISS)
-				var rating := RGCScoreManager.get_rating_by_offset(note_type, miss_offset)
-				RGCSM.add_score.emit(rating)
+				RGCSM.add_score.emit(RGCScoreManager.Rating.MISS)
 				
 				match note_type:
 					RGCNoteEvent.NoteType.TAP: 
@@ -130,26 +128,20 @@ func continuous_state_judge(elasped_time: int) -> bool:
 		
 		States.HOLDING:
 			if elasped_time >= note_end_time:
-				var marvelous_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.MARVELOUS)
-				var rating := RGCScoreManager.get_rating_by_offset(note_type, marvelous_offset)
-				RGCSM.add_score.emit(rating)
+				RGCSM.add_score.emit(RGCScoreManager.Rating.MARVELOUS)
 				current_state = States.END
 				return true
 		
 		States.BREAK_HOLDING:
 			if elasped_time >= note_end_time:
-				var good_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GOOD)
-				var rating := RGCScoreManager.get_rating_by_offset(note_type, good_offset)
-				RGCSM.add_score.emit(rating)
+				RGCSM.add_score.emit(RGCScoreManager.Rating.GOOD)
 				current_state = States.END
 				return true
 		
 		States.BREAK:
 			note_material.set_shader_parameter(&"base_color", color_group["MissingColor"])
 			if elasped_time >= note_end_time + end_judge_range:
-				var miss_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.MISS)
-				var rating := RGCScoreManager.get_rating_by_offset(note_type, miss_offset)
-				RGCSM.add_score.emit(rating)
+				RGCSM.add_score.emit(RGCScoreManager.Rating.MISS)
 				current_state = States.END
 				return false
 	
@@ -162,7 +154,7 @@ func note_press_judge(hit_time: int) -> bool:
 		return false
 	
 	var hit_offset: int = absi(hit_time - note_start_time + RGCScoreManager.hit_offset)
-	var rating := RGCScoreManager.get_rating_by_offset(note_type, hit_offset)
+	var rating: RGCScoreManager.Rating = RGCScoreManager.get_rating_by_offset(note_type, hit_offset)
 	RGCSM.add_score.emit(rating)
 	
 	match note_type:
@@ -188,9 +180,7 @@ func hold_release_judge(hit_time: int) -> bool:
 	match current_state:
 		States.HOLDING:
 			if hit_time >= note_end_time - start_judge_range:
-				var marvelous_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.MARVELOUS)
-				var rating := RGCScoreManager.get_rating_by_offset(note_type, marvelous_offset)
-				RGCSM.add_score.emit(rating)
+				RGCSM.add_score.emit(RGCScoreManager.Rating.MARVELOUS)
 				current_state = States.END
 				return true
 			
@@ -199,9 +189,7 @@ func hold_release_judge(hit_time: int) -> bool:
 		
 		States.BREAK_HOLDING:
 			if hit_time >= note_end_time - start_judge_range:
-				var good_offset: int = RGCScoreManager.get_offset_by_rating(note_type, RGCScoreManager.Rating.GOOD)
-				var rating := RGCScoreManager.get_rating_by_offset(note_type, good_offset)
-				RGCSM.add_score.emit(rating)
+				RGCSM.add_score.emit(RGCScoreManager.Rating.GOOD)
 				current_state = States.END
 				return true
 	

@@ -47,12 +47,17 @@ func _import(
 	) -> Error:
 	var keys: int = options.get("keys", KEYS)
 	
-	var file := FileAccess.open(source_file, FileAccess.READ)
-	var parser := RGCParserOM.new()
-	var timing_points: PackedStringArray = parser.parse_timing_points(file.get_as_text())
-	var hit_objects: PackedStringArray = parser.parse_hit_objects(keys, file.get_as_text())
+	var file: FileAccess = FileAccess.open(source_file, FileAccess.READ)
+	if not file:
+		return ERR_FILE_CANT_OPEN
 	
-	var output_file_path := "%s.%s" % [save_path, _get_save_extension()]
+	var content: String = file.get_as_text()
+	
+	var parser: RGCParserOM = RGCParserOM.new()
+	var timing_points: PackedStringArray = parser.parse_timing_points(content)
+	var hit_objects: PackedStringArray = parser.parse_hit_objects(keys, content)
+	
+	var output_file_path: String = "%s.%s" % [save_path, _get_save_extension()]
 	RGCFileManager.save_parse_file(output_file_path, timing_points, hit_objects)
 
 	return OK

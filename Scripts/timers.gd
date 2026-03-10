@@ -1,5 +1,9 @@
 extends Node
 
+@export var start_button: Button
+@export var import_button: Button
+@export var reload_hint: Label
+
 @export var countdown: int
 @export var countdown_ui: Control
 @export var time_manager: RGCTimeManager
@@ -17,6 +21,9 @@ func _on_start_button_pressed() -> void:
 		push_error("未加载谱面文件！")
 		return
 	
+	start_button.disabled = true
+	import_button.disabled = true
+	reload_hint.visible = true
 	note_spawner_timer.start()
 	audio_play_timer.start()
 

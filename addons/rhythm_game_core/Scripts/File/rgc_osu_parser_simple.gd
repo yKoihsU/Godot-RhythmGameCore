@@ -1,4 +1,4 @@
-extends RefCounted
+extends RGCParser
 ## 此类属于 RhythmGameCore 插件[br]
 ## 辅助类，用于解析 osu 谱面中的 [param TimingPoints] 和 [param HitObjects]
 class_name RGCParserOM
@@ -7,15 +7,15 @@ const HIT_OBJECT_INFO_FORMAT: String = "{\"start_time\":%d, \"end_time\":%d, \"n
 const TIMING_POINT_INFO_FORMAT: String = "{\"time\":%d, \"bpm\":%.2f, \"speed\":%.2f}"
 
 ## 解析osu谱面中的 [param General] 部分（不使用）
-func parse_general():
+func parse_general(_file_content: String):
 	pass
 
 ## 解析osu谱面中的 [param Metadata] 部分（不使用）
-func parse_metadata():
+func parse_metadata(_file_content: String):
 	pass
 
 ## 解析osu谱面中的 [param Difficulty] 部分（不使用）
-func parse_difficulty():
+func parse_difficulty(_file_content: String):
 	pass
 
 ## 解析osu谱面中的 [param TimingPoints] 部分

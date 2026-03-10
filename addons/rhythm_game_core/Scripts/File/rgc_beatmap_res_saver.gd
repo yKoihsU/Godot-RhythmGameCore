@@ -55,9 +55,9 @@ func _save(resource: Resource, path: String, flags: int) -> Error:
 			dict["track"]
 		]
 	
-	var file := FileAccess.open(path, FileAccess.WRITE)
+	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if not file:
-		file.get_open_error()
+		return FileAccess.get_open_error()
 	
 	file.store_string(content)
 	file.close()

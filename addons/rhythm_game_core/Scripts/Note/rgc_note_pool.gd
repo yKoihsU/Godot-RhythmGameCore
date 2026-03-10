@@ -20,8 +20,8 @@ var note_pool_dict: Dictionary[StringName, Array] = {
 
 func _ready() -> void:
 	for i in init_note_count:
-		var tap_note := note_scene_dict["TapNote"].instantiate()
-		var hold_note := note_scene_dict["HoldNote"].instantiate()
+		var tap_note: RGCNoteNode = note_scene_dict["TapNote"].instantiate()
+		var hold_note: RGCNoteNode = note_scene_dict["HoldNote"].instantiate()
 		note_pool_dict["TAP"].append(tap_note)
 		note_pool_dict["HOLD"].append(hold_note)
 

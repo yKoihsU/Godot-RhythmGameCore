@@ -30,7 +30,7 @@ class Segment:
 		return cumulative_end
 
 ## 建立时间切片组
-func build_segments(time_datas: Array[Dictionary]):
+func build_segments(time_datas: Array[Dictionary]) -> void:
 	var cumulative_position: float = 0.0
 	
 	if time_datas.size() == 1:
@@ -84,7 +84,7 @@ func build_segments(time_datas: Array[Dictionary]):
 	current_seg = segments[0]
 
 ## 重置下标
-func reset_index():
+func reset_index() -> void:
 	seg_pos_index = 0
 	seg_time_index = 0
 

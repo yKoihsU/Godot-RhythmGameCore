@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://d3tx72n68gk20"]
+[gd_scene format=3 uid="uid://d3tx72n68gk20"]
 
 [ext_resource type="StyleBox" uid="uid://c4yecl1ok57op" path="res://Resources/track_texture.tres" id="1_5lpdq"]
 [ext_resource type="Script" uid="uid://bangyu7jnpwjj" path="res://Scripts/track_ui.gd" id="1_s0476"]
@@ -172,6 +172,9 @@ font_size = 100
 [sub_resource type="LabelSettings" id="LabelSettings_yglu3"]
 font_size = 30
 
+[sub_resource type="LabelSettings" id="LabelSettings_cqpud"]
+font_size = 22
+
 [sub_resource type="LabelSettings" id="LabelSettings_w1bh8"]
 font_size = 30
 
@@ -186,7 +189,7 @@ shader = ExtResource("4_pakvq")
 shader_parameter/dim_strength = 0.400000019
 shader_parameter/blur_strength = 1.0000000475
 
-[node name="PlayScene" type="Control"]
+[node name="PlayScene" type="Control" unique_id=2102636175]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -194,7 +197,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OtherUI" type="Control" parent="."]
+[node name="OtherUI" type="Control" parent="." unique_id=80199774]
 z_index = 2
 layout_mode = 1
 anchors_preset = 15
@@ -204,7 +207,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScoreLabel" type="Label" parent="OtherUI"]
+[node name="ScoreLabel" type="Label" parent="OtherUI" unique_id=676013822]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -218,7 +221,7 @@ text = "0000000"
 label_settings = SubResource("LabelSettings_j3qlu")
 horizontal_alignment = 2
 
-[node name="ProgressBar" type="TextureProgressBar" parent="OtherUI"]
+[node name="ProgressBar" type="TextureProgressBar" parent="OtherUI" unique_id=1520991043]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -228,7 +231,7 @@ max_value = 1000.0
 texture_under = SubResource("GradientTexture2D_3cjv5")
 texture_progress = SubResource("GradientTexture2D_fbpj1")
 
-[node name="PauseButton" type="Button" parent="OtherUI"]
+[node name="PauseButton" type="Button" parent="OtherUI" unique_id=614339282]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 1
 offset_top = 10.0
@@ -239,7 +242,7 @@ theme_override_font_sizes/font_size = 25
 shortcut = SubResource("Shortcut_lf4m5")
 text = "暂停"
 
-[node name="TrackUI" type="Control" parent="." node_paths=PackedStringArray("rating_label", "combo_label")]
+[node name="TrackUI" type="Control" parent="." unique_id=1638992973 node_paths=PackedStringArray("rating_label", "combo_label")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -251,7 +254,7 @@ script = ExtResource("1_s0476")
 rating_label = NodePath("RatingLabel")
 combo_label = NodePath("ComboLabel")
 
-[node name="CenterContainer" type="CenterContainer" parent="TrackUI"]
+[node name="CenterContainer" type="CenterContainer" parent="TrackUI" unique_id=193270873]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -262,14 +265,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Generator" type="CenterContainer" parent="TrackUI/CenterContainer"]
+[node name="Generator" type="CenterContainer" parent="TrackUI/CenterContainer" unique_id=449476620]
 layout_mode = 2
 
-[node name="Tracks" type="HBoxContainer" parent="TrackUI/CenterContainer/Generator"]
+[node name="Tracks" type="HBoxContainer" parent="TrackUI/CenterContainer/Generator" unique_id=891870059]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Track1" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
+[node name="Track1" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" unique_id=480417983 node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
 custom_minimum_size = Vector2(85, 720)
 layout_mode = 2
 script = ExtResource("5_7eoc7")
@@ -291,7 +294,7 @@ note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
 note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
-[node name="Track2" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
+[node name="Track2" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" unique_id=1264336486 node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
 custom_minimum_size = Vector2(85, 720)
 layout_mode = 2
 script = ExtResource("5_7eoc7")
@@ -313,7 +316,7 @@ note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
 note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
-[node name="Track3" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
+[node name="Track3" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" unique_id=1959495782 node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
 custom_minimum_size = Vector2(85, 720)
 layout_mode = 2
 script = ExtResource("5_7eoc7")
@@ -335,7 +338,7 @@ note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
 note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
-[node name="Track4" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
+[node name="Track4" type="Control" parent="TrackUI/CenterContainer/Generator/Tracks" unique_id=1658481171 node_paths=PackedStringArray("bind_key_node", "hit_effect_node", "hit_sound_node", "note_pos_calculator", "note_pool")]
 custom_minimum_size = Vector2(85, 720)
 layout_mode = 2
 script = ExtResource("5_7eoc7")
@@ -357,23 +360,23 @@ note_pos_calculator = NodePath("../../../../../Scripts/NotePositionCalculator")
 note_pool = NodePath("../../../../../Scripts/NotePool")
 metadata/_custom_type_script = "uid://8e1cyk7nhkk"
 
-[node name="Visual" type="VBoxContainer" parent="TrackUI/CenterContainer"]
+[node name="Visual" type="VBoxContainer" parent="TrackUI/CenterContainer" unique_id=827322517]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Tracks" type="HBoxContainer" parent="TrackUI/CenterContainer/Visual"]
+[node name="Tracks" type="HBoxContainer" parent="TrackUI/CenterContainer/Visual" unique_id=58424565]
 z_index = -3
 custom_minimum_size = Vector2(0, 720)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Track1" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+[node name="Track1" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks" unique_id=344202286]
 z_index = -1
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_5lpdq")
 
-[node name="Key1" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track1" node_paths=PackedStringArray("key_name")]
+[node name="Key1" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track1" unique_id=513959211 node_paths=PackedStringArray("key_name")]
 z_index = 2
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 1
@@ -394,7 +397,7 @@ pressed_texture = ExtResource("4_ivbpn")
 key_name = NodePath("Label")
 metadata/_custom_type_script = "uid://lqktsetapctj"
 
-[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track1/Key1"]
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track1/Key1" unique_id=1815005314]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -407,7 +410,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track1"]
+[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track1" unique_id=195966384]
 z_index = 4
 position = Vector2(40, 625)
 scale = Vector2(0.3, 0.3)
@@ -416,13 +419,13 @@ animation = &"Hit"
 frame = 11
 frame_progress = 1.0
 
-[node name="Track2" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+[node name="Track2" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks" unique_id=1609580908]
 z_index = -1
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_5lpdq")
 
-[node name="Key2" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track2" node_paths=PackedStringArray("key_name")]
+[node name="Key2" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track2" unique_id=1343736707 node_paths=PackedStringArray("key_name")]
 z_index = 2
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 1
@@ -443,7 +446,7 @@ pressed_texture = ExtResource("4_ivbpn")
 key_name = NodePath("Label")
 metadata/_custom_type_script = "uid://lqktsetapctj"
 
-[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track2/Key2"]
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track2/Key2" unique_id=1424360956]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -456,7 +459,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track2"]
+[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track2" unique_id=1175784339]
 z_index = 4
 position = Vector2(40, 625)
 scale = Vector2(0.3, 0.3)
@@ -465,13 +468,13 @@ animation = &"Hit"
 frame = 11
 frame_progress = 1.0
 
-[node name="Track3" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+[node name="Track3" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks" unique_id=1595046653]
 z_index = -1
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_5lpdq")
 
-[node name="Key3" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track3" node_paths=PackedStringArray("key_name")]
+[node name="Key3" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track3" unique_id=1004149237 node_paths=PackedStringArray("key_name")]
 z_index = 2
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 1
@@ -492,7 +495,7 @@ pressed_texture = ExtResource("4_ivbpn")
 key_name = NodePath("Label")
 metadata/_custom_type_script = "uid://lqktsetapctj"
 
-[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track3/Key3"]
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track3/Key3" unique_id=1328426750]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -505,7 +508,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 2
 
-[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track3"]
+[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track3" unique_id=1506472581]
 z_index = 4
 position = Vector2(40, 625)
 scale = Vector2(0.3, 0.3)
@@ -514,13 +517,13 @@ animation = &"Hit"
 frame = 11
 frame_progress = 1.0
 
-[node name="Track4" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks"]
+[node name="Track4" type="Panel" parent="TrackUI/CenterContainer/Visual/Tracks" unique_id=1140009925]
 z_index = -1
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
 theme_override_styles/panel = ExtResource("1_5lpdq")
 
-[node name="Key4" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track4" node_paths=PackedStringArray("key_name")]
+[node name="Key4" type="Button" parent="TrackUI/CenterContainer/Visual/Tracks/Track4" unique_id=426614756 node_paths=PackedStringArray("key_name")]
 z_index = 2
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 1
@@ -541,7 +544,7 @@ pressed_texture = ExtResource("4_ivbpn")
 key_name = NodePath("Label")
 metadata/_custom_type_script = "uid://lqktsetapctj"
 
-[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track4/Key4"]
+[node name="Label" type="Label" parent="TrackUI/CenterContainer/Visual/Tracks/Track4/Key4" unique_id=260200307]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -554,7 +557,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track4"]
+[node name="HitEffect" type="AnimatedSprite2D" parent="TrackUI/CenterContainer/Visual/Tracks/Track4" unique_id=2072728230]
 z_index = 4
 position = Vector2(40, 625)
 scale = Vector2(0.3, 0.3)
@@ -563,7 +566,7 @@ animation = &"Hit"
 frame = 11
 frame_progress = 1.0
 
-[node name="JudgeLine" type="ColorRect" parent="TrackUI"]
+[node name="JudgeLine" type="ColorRect" parent="TrackUI" unique_id=1854364342]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -578,7 +581,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.706303, 0.706303, 0.706303, 1)
 
-[node name="ComboLabel" type="Label" parent="TrackUI"]
+[node name="ComboLabel" type="Label" parent="TrackUI" unique_id=1096795974]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -593,7 +596,7 @@ label_settings = SubResource("LabelSettings_4qg1e")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RatingLabel" type="Label" parent="TrackUI"]
+[node name="RatingLabel" type="Label" parent="TrackUI" unique_id=1372362254]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -611,7 +614,7 @@ label_settings = SubResource("LabelSettings_d3awe")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PauseUI" type="Control" parent="." node_paths=PackedStringArray("countdown_ui", "time_manager", "continue_timer")]
+[node name="PauseUI" type="Control" parent="." unique_id=682645977 node_paths=PackedStringArray("countdown_ui", "time_manager", "continue_timer")]
 process_mode = 2
 visible = false
 z_index = 2
@@ -627,7 +630,7 @@ countdown_ui = NodePath("../CountdownUI")
 time_manager = NodePath("../Scripts/TimeManager")
 continue_timer = NodePath("../Timers/ContinueTimer")
 
-[node name="DimBackground" type="ColorRect" parent="PauseUI"]
+[node name="DimBackground" type="ColorRect" parent="PauseUI" unique_id=1780519225]
 self_modulate = Color(1, 1, 1, 0.431373)
 layout_mode = 1
 anchors_preset = 15
@@ -637,7 +640,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI" unique_id=2113751473]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -652,35 +655,35 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
 
-[node name="Label" type="Label" parent="PauseUI/VBoxContainer"]
+[node name="Label" type="Label" parent="PauseUI/VBoxContainer" unique_id=1914489099]
 layout_mode = 2
 text = "游戏暂停"
 label_settings = SubResource("LabelSettings_2kn3l")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="PauseUI/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PauseUI/VBoxContainer" unique_id=231353624]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseUI/VBoxContainer/MarginContainer" unique_id=1981159790]
 layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="ContinueButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="ContinueButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer" unique_id=1495609307]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "继续"
 
-[node name="ReloadButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="ReloadButton" type="Button" parent="PauseUI/VBoxContainer/MarginContainer/VBoxContainer" unique_id=807805747]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "重新加载场景"
 
-[node name="CountdownUI" type="Control" parent="." node_paths=PackedStringArray("text_label", "timers_node")]
+[node name="CountdownUI" type="Control" parent="." unique_id=1675399482 node_paths=PackedStringArray("text_label", "timers_node")]
 process_mode = 2
 visible = false
 z_index = 2
@@ -694,7 +697,7 @@ script = ExtResource("15_cqpud")
 text_label = NodePath("Label")
 timers_node = NodePath("../Timers")
 
-[node name="Background" type="Panel" parent="CountdownUI"]
+[node name="Background" type="Panel" parent="CountdownUI" unique_id=1207596254]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 14
@@ -704,7 +707,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="CountdownUI"]
+[node name="Label" type="Label" parent="CountdownUI" unique_id=1672782105]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -720,7 +723,7 @@ grow_vertical = 2
 text = "3"
 label_settings = SubResource("LabelSettings_1mfr0")
 
-[node name="DebugUI" type="Control" parent="." node_paths=PackedStringArray("tap_count", "hold_count", "total_note_count", "audio_length", "marvelous_count", "perfect_count", "great_count", "good_count", "miss_count", "accuracy")]
+[node name="DebugUI" type="Control" parent="." unique_id=61947384 node_paths=PackedStringArray("tap_count", "hold_count", "total_note_count", "audio_length", "marvelous_count", "perfect_count", "great_count", "good_count", "miss_count", "accuracy")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -740,7 +743,7 @@ good_count = NodePath("ScoreInfo/GoodLabel")
 miss_count = NodePath("ScoreInfo/MissLabel")
 accuracy = NodePath("ScoreInfo/AccuracyLabel")
 
-[node name="ScoreInfo" type="VBoxContainer" parent="DebugUI"]
+[node name="ScoreInfo" type="VBoxContainer" parent="DebugUI" unique_id=1338689285]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.71900004
@@ -752,37 +755,37 @@ offset_right = 0.6398926
 offset_bottom = 0.07998657
 theme_override_constants/separation = 10
 
-[node name="MarvelousLabel" type="Label" parent="DebugUI/ScoreInfo"]
+[node name="MarvelousLabel" type="Label" parent="DebugUI/ScoreInfo" unique_id=555178589]
 layout_mode = 2
 text = "MARVELOUS: {0}"
 label_settings = SubResource("LabelSettings_yglu3")
 
-[node name="PerfectLabel" type="Label" parent="DebugUI/ScoreInfo"]
+[node name="PerfectLabel" type="Label" parent="DebugUI/ScoreInfo" unique_id=361536443]
 layout_mode = 2
 text = "PERFECT: {0}"
 label_settings = SubResource("LabelSettings_yglu3")
 
-[node name="GreatLabel" type="Label" parent="DebugUI/ScoreInfo"]
+[node name="GreatLabel" type="Label" parent="DebugUI/ScoreInfo" unique_id=810861096]
 layout_mode = 2
 text = "GREAT: {0}"
 label_settings = SubResource("LabelSettings_yglu3")
 
-[node name="GoodLabel" type="Label" parent="DebugUI/ScoreInfo"]
+[node name="GoodLabel" type="Label" parent="DebugUI/ScoreInfo" unique_id=764857808]
 layout_mode = 2
 text = "GOOD: {0}"
 label_settings = SubResource("LabelSettings_yglu3")
 
-[node name="MissLabel" type="Label" parent="DebugUI/ScoreInfo"]
+[node name="MissLabel" type="Label" parent="DebugUI/ScoreInfo" unique_id=1416114140]
 layout_mode = 2
 text = "MISS: {0}"
 label_settings = SubResource("LabelSettings_yglu3")
 
-[node name="AccuracyLabel" type="Label" parent="DebugUI/ScoreInfo"]
+[node name="AccuracyLabel" type="Label" parent="DebugUI/ScoreInfo" unique_id=1070042176]
 layout_mode = 2
 text = "ACC: {0} %"
 label_settings = SubResource("LabelSettings_yglu3")
 
-[node name="StartButton" type="Button" parent="DebugUI"]
+[node name="StartButton" type="Button" parent="DebugUI" unique_id=971663155]
 custom_minimum_size = Vector2(150, 60)
 layout_mode = 1
 anchors_preset = -1
@@ -797,7 +800,7 @@ offset_bottom = -0.16003418
 theme_override_font_sizes/font_size = 25
 text = "开始测试"
 
-[node name="ImportButton" type="Button" parent="DebugUI"]
+[node name="ImportButton" type="Button" parent="DebugUI" unique_id=534348160]
 custom_minimum_size = Vector2(150, 60)
 layout_mode = 1
 anchors_preset = -1
@@ -812,7 +815,19 @@ offset_bottom = -0.16003418
 theme_override_font_sizes/font_size = 25
 text = "导入文件"
 
-[node name="BeatmapInfo" type="VBoxContainer" parent="DebugUI"]
+[node name="ReloadHint" type="Label" parent="DebugUI" unique_id=1668255449]
+visible = false
+layout_mode = 0
+offset_left = 19.0
+offset_top = 182.0
+offset_right = 447.0
+offset_bottom = 217.0
+text = "游玩结束后打开暂停菜单重载场景！"
+label_settings = SubResource("LabelSettings_cqpud")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="BeatmapInfo" type="VBoxContainer" parent="DebugUI" unique_id=1558728841]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.059000004
@@ -825,30 +840,30 @@ offset_right = -0.08001709
 offset_bottom = 0.15997314
 theme_override_constants/separation = 10
 
-[node name="TapCount" type="Label" parent="DebugUI/BeatmapInfo"]
+[node name="TapCount" type="Label" parent="DebugUI/BeatmapInfo" unique_id=260662804]
 layout_mode = 2
 text = "Tap: {0}"
 label_settings = SubResource("LabelSettings_w1bh8")
 
-[node name="HoldCount" type="Label" parent="DebugUI/BeatmapInfo"]
+[node name="HoldCount" type="Label" parent="DebugUI/BeatmapInfo" unique_id=1296713754]
 layout_mode = 2
 text = "Hold: {0}"
 label_settings = SubResource("LabelSettings_w1bh8")
 
-[node name="TotalNoteCount" type="Label" parent="DebugUI/BeatmapInfo"]
+[node name="TotalNoteCount" type="Label" parent="DebugUI/BeatmapInfo" unique_id=415388671]
 layout_mode = 2
 text = "Total: {0}"
 label_settings = SubResource("LabelSettings_w1bh8")
 
-[node name="AudioLength" type="Label" parent="DebugUI/BeatmapInfo"]
+[node name="AudioLength" type="Label" parent="DebugUI/BeatmapInfo" unique_id=191804474]
 layout_mode = 2
 text = "Length: {0} : {1}"
 label_settings = SubResource("LabelSettings_w1bh8")
 
-[node name="Background" type="CanvasLayer" parent="."]
+[node name="Background" type="CanvasLayer" parent="." unique_id=1914269842]
 layer = -2
 
-[node name="BackgroundGroup" type="Control" parent="Background"]
+[node name="BackgroundGroup" type="Control" parent="Background" unique_id=917450037]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -856,8 +871,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
-[node name="BackgroundTexture" type="TextureRect" parent="Background/BackgroundGroup"]
+[node name="BackgroundTexture" type="TextureRect" parent="Background/BackgroundGroup" unique_id=1204182440]
 z_index = -4
 layout_mode = 1
 anchors_preset = 15
@@ -869,8 +885,9 @@ mouse_filter = 2
 texture = SubResource("GradientTexture2D_2kn3l")
 expand_mode = 2
 stretch_mode = 6
+metadata/_edit_lock_ = true
 
-[node name="BlurShader" type="ColorRect" parent="Background/BackgroundGroup"]
+[node name="BlurShader" type="ColorRect" parent="Background/BackgroundGroup" unique_id=1348005934]
 material = SubResource("ShaderMaterial_5lpdq")
 layout_mode = 1
 anchors_preset = 15
@@ -879,27 +896,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
-[node name="Scripts" type="Node" parent="."]
+[node name="Scripts" type="Node" parent="." unique_id=1527941038]
 
-[node name="TimeManager" type="Node" parent="Scripts" node_paths=PackedStringArray("note_spawner_timer", "audio_play_timer")]
+[node name="TimeManager" type="Node" parent="Scripts" unique_id=1844807994 node_paths=PackedStringArray("note_spawner_timer", "audio_play_timer")]
 script = ExtResource("10_j3qlu")
 note_spawner_timer = NodePath("../../Timers/NoteSpawner")
 audio_play_timer = NodePath("../../Timers/AudioPlay")
 metadata/_custom_type_script = "uid://dwqivicxyie81"
 
-[node name="TrackManager" type="Node" parent="Scripts" node_paths=PackedStringArray("track_parent_node", "note_pos_calculator", "time_manager")]
+[node name="TrackManager" type="Node" parent="Scripts" unique_id=1931907583 node_paths=PackedStringArray("track_parent_node", "note_pos_calculator", "time_manager")]
 script = ExtResource("9_io55t")
 track_parent_node = NodePath("../../TrackUI/CenterContainer/Generator/Tracks")
 note_pos_calculator = NodePath("../NotePositionCalculator")
 time_manager = NodePath("../TimeManager")
 metadata/_custom_type_script = "uid://c6a27qd8xkina"
 
-[node name="NotePositionCalculator" type="Node" parent="Scripts"]
+[node name="NotePositionCalculator" type="Node" parent="Scripts" unique_id=732811308]
 script = ExtResource("21_vl43l")
 metadata/_custom_type_script = "uid://vjcm5nu53rop"
 
-[node name="NotePool" type="Node" parent="Scripts"]
+[node name="NotePool" type="Node" parent="Scripts" unique_id=975296341]
 script = ExtResource("21_7eoc7")
 note_scene_dict = Dictionary[StringName, PackedScene]({
 &"HoldNote": ExtResource("8_blhi5"),
@@ -908,20 +926,23 @@ note_scene_dict = Dictionary[StringName, PackedScene]({
 init_note_count = 20
 metadata/_custom_type_script = "uid://f5s8spvhkt4f"
 
-[node name="Audios" type="Node" parent="." node_paths=PackedStringArray("music_player", "hit_sound_player")]
+[node name="Audios" type="Node" parent="." unique_id=640213732 node_paths=PackedStringArray("music_player", "hit_sound_player")]
 script = ExtResource("14_3cjv5")
 music_player = NodePath("BGM")
 hit_sound_player = NodePath("HitSound")
 
-[node name="BGM" type="AudioStreamPlayer" parent="Audios"]
+[node name="BGM" type="AudioStreamPlayer" parent="Audios" unique_id=1087582443]
 bus = &"BGM"
 
-[node name="HitSound" type="AudioStreamPlayer" parent="Audios"]
+[node name="HitSound" type="AudioStreamPlayer" parent="Audios" unique_id=420854510]
 stream = ExtResource("21_1763q")
 bus = &"SFX"
 
-[node name="Timers" type="Node" parent="." node_paths=PackedStringArray("countdown_ui", "time_manager", "track_manager", "note_spawner_timer", "audio_play_timer", "continue_timer")]
+[node name="Timers" type="Node" parent="." unique_id=1124272531 node_paths=PackedStringArray("start_button", "import_button", "reload_hint", "countdown_ui", "time_manager", "track_manager", "note_spawner_timer", "audio_play_timer", "continue_timer")]
 script = ExtResource("15_fbpj1")
+start_button = NodePath("../DebugUI/StartButton")
+import_button = NodePath("../DebugUI/ImportButton")
+reload_hint = NodePath("../DebugUI/ReloadHint")
 countdown = 3
 countdown_ui = NodePath("../CountdownUI")
 time_manager = NodePath("../Scripts/TimeManager")
@@ -930,18 +951,18 @@ note_spawner_timer = NodePath("NoteSpawner")
 audio_play_timer = NodePath("AudioPlay")
 continue_timer = NodePath("ContinueTimer")
 
-[node name="NoteSpawner" type="Timer" parent="Timers"]
+[node name="NoteSpawner" type="Timer" parent="Timers" unique_id=2061739253]
 wait_time = 3.0
 one_shot = true
 
-[node name="AudioPlay" type="Timer" parent="Timers"]
+[node name="AudioPlay" type="Timer" parent="Timers" unique_id=1075787166]
 wait_time = 3.0
 one_shot = true
 
-[node name="ContinueTimer" type="Timer" parent="Timers"]
+[node name="ContinueTimer" type="Timer" parent="Timers" unique_id=668143372]
 process_mode = 2
 
-[node name="FileDialogs" type="Node" parent="." node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "music_player", "osu_file_dialog", "audio_file_dialog")]
+[node name="FileDialogs" type="Node" parent="." unique_id=1968170552 node_paths=PackedStringArray("note_pos_calculator", "track_manager", "debug_ui", "music_player", "osu_file_dialog", "audio_file_dialog")]
 script = ExtResource("12_ivbpn")
 note_pos_calculator = NodePath("../Scripts/NotePositionCalculator")
 track_manager = NodePath("../Scripts/TrackManager")
@@ -950,14 +971,14 @@ music_player = NodePath("../Audios/BGM")
 osu_file_dialog = NodePath("OSUFile")
 audio_file_dialog = NodePath("AudioFile")
 
-[node name="OSUFile" type="FileDialog" parent="FileDialogs"]
+[node name="OSUFile" type="FileDialog" parent="FileDialogs" unique_id=1253415947]
 title = "Open a File"
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.osu", "*.beatmap")
 use_native_dialog = true
 
-[node name="AudioFile" type="FileDialog" parent="FileDialogs"]
+[node name="AudioFile" type="FileDialog" parent="FileDialogs" unique_id=525888121]
 title = "Open a File"
 file_mode = 0
 display_mode = 1
